@@ -17,9 +17,9 @@
       "owner": "MANUEL",
       "kind": "skill/pipeline",
       "maturity": "operational",
-      "path": "skills/manuel/interaction-evidence-ingest/README.md",
-      "note": "v2.0 FINAL is the controlling production skill after the two ARC empirical runs. Exact current source is in File Library and has not yet been committed at the canonical GitHub skill path; v1.6-v1.9 are legacy lineage.",
-      "repo_status": "placeholder"
+      "path": "skills/manuel/interaction-evidence-ingest/SKILL.md",
+      "note": "Exact v2.0 FINAL controlling skill migrated from File Library file_00000000b56c81f4b6f3b2c6da8e67dc. Versions v1.6-v1.9 remain legacy lineage.",
+      "repo_status": "canonical"
     },
     {
       "id": "manuel.diarisation-v2",
@@ -47,9 +47,9 @@
       "owner": "BRIAN",
       "kind": "skill/product",
       "maturity": "operational",
-      "path": "skills/brian/meeting-intelligence/README.md",
-      "note": "v2.0 FINAL is the controlling production Meeting Intelligence skill. Exact current source is in File Library and has not yet been committed at the canonical GitHub skill path; v1.6-v1.9 are legacy lineage.",
-      "repo_status": "placeholder"
+      "path": "skills/brian/meeting-intelligence/SKILL.md",
+      "note": "Exact v2.0 FINAL controlling skill migrated from File Library file_00000000dbf081f4b4cc4a9db081c318. Versions v1.6-v1.9 remain legacy lineage.",
+      "repo_status": "canonical"
     },
     {
       "id": "brian.behavioural-profile",

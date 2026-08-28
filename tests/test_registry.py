@@ -19,17 +19,22 @@ class RegistryTests(unittest.TestCase):
         self.assertTrue(all(x.owner == "BRIAN" for x in brian))
 
     def test_repo_status_filter(self):
-        placeholders = filter_capabilities(repo_status="placeholder")
-        self.assertTrue(placeholders)
-        self.assertTrue(all(x.repo_status == "placeholder" for x in placeholders))
+        canonical = filter_capabilities(repo_status="canonical")
+        self.assertTrue(canonical)
+        self.assertTrue(all(x.repo_status == "canonical" for x in canonical))
 
-    def test_unrecovered_high_value_skill_sources_remain_explicit_placeholders(self):
+    def test_current_v2_meeting_skills_are_canonical(self):
         by_id = {x.id: x for x in load_capabilities()}
-        for capability_id in {
-            "manuel.interaction-evidence-ingest",
-            "brian.meeting-intelligence",
-        }:
-            self.assertEqual(by_id[capability_id].repo_status, "placeholder")
+        expected = {
+            "manuel.interaction-evidence-ingest": "skills/manuel/interaction-evidence-ingest/SKILL.md",
+            "brian.meeting-intelligence": "skills/brian/meeting-intelligence/SKILL.md",
+        }
+        for capability_id, path in expected.items():
+            capability = by_id[capability_id]
+            self.assertEqual(capability.repo_status, "canonical")
+            self.assertEqual(capability.maturity, "operational")
+            self.assertEqual(capability.path, path)
+            self.assertIn("v2.0 FINAL", capability.name)
 
     def test_recovered_manuel_sources_are_migrating_not_canonical(self):
         by_id = {x.id: x for x in load_capabilities()}

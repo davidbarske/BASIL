@@ -1,0 +1,41 @@
+name: Materialise diarisation v2 source
+
+on:
+  push:
+    branches:
+      - work/diarisation-v2-source
+
+permissions:
+  contents: write
+
+jobs:
+  materialise:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reconstruct and verify exact source
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64, hashlib, zlib
+
+          parts = [Path(f'.migration/diarise.{i:02d}.b64').read_text() for i in range(4)]
+          raw = zlib.decompress(base64.b64decode(''.join(parts)))
+          assert len(raw) == 66544, len(raw)
+          assert hashlib.sha256(raw).hexdigest() == '6aae3e4200116aef7a8177fbfeada915620a27f28b8fb815bf1b3a36958454e8'
+          h = hashlib.sha1()
+          h.update(f'blob {len(raw)}\0'.encode())
+          h.update(raw)
+          assert h.hexdigest() == '0239ef918c5042da1c8702cccfaa3f38225316a2'
+          target = Path('skills/manuel/diarisation/diarise_meetings_v2.py')
+          target.parent.mkdir(parents=True, exist_ok=True)
+          target.write_bytes(raw)
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add skills/manuel/diarisation/diarise_meetings_v2.py
+          if ! git diff --cached --quiet; then
+            git commit -m "feat: materialise exact diarisation v2 source"
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi

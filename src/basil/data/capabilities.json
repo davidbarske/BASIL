@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "capabilities": [
     {
       "id": "basil.controller",
@@ -8,7 +8,8 @@
       "kind": "controller",
       "maturity": "architectural",
       "path": "docs/governance/CONTROLLER_KERNEL.md",
-      "note": "Controller doctrine established; this repo provides only a small executable core so far."
+      "note": "Controller doctrine established; this repo provides only a small executable core so far.",
+      "repo_status": "migrating"
     },
     {
       "id": "manuel.interaction-evidence-ingest",
@@ -17,7 +18,8 @@
       "kind": "skill/pipeline",
       "maturity": "operational",
       "path": "skills/manuel/interaction-evidence-ingest/README.md",
-      "note": "Operational contract proven in real meeting work; exact current source skill is still being migrated into this public repo."
+      "note": "Operational contract proven in real meeting work; exact current source skill is still being migrated into this public repo.",
+      "repo_status": "placeholder"
     },
     {
       "id": "manuel.diarisation-v2",
@@ -26,7 +28,8 @@
       "kind": "script",
       "maturity": "tested",
       "path": "skills/manuel/diarisation/README.md",
-      "note": "Real tested script exists in BASIL lineage. Public-repo migration is pending exact-source recovery and dependency packaging."
+      "note": "Real tested script exists in BASIL lineage. Public-repo migration is pending exact-source recovery and dependency packaging.",
+      "repo_status": "placeholder"
     },
     {
       "id": "manuel.acoustic-enrichment",
@@ -35,7 +38,8 @@
       "kind": "script/method",
       "maturity": "tested",
       "path": "skills/manuel/acoustic-enrichment/README.md",
-      "note": "Evidence/QC method only; not a psychological inference engine."
+      "note": "Evidence/QC method only; exact current source is not yet migrated into this public repo.",
+      "repo_status": "placeholder"
     },
     {
       "id": "brian.meeting-intelligence",
@@ -44,7 +48,8 @@
       "kind": "skill/product",
       "maturity": "operational",
       "path": "skills/brian/meeting-intelligence/README.md",
-      "note": "Consumes finalised MANUEL evidence and produces evidence-disciplined Meeting Intelligence."
+      "note": "Consumes finalised MANUEL evidence and produces evidence-disciplined Meeting Intelligence. Exact v1.9 source is still being recovered.",
+      "repo_status": "placeholder"
     },
     {
       "id": "brian.behavioural-profile",
@@ -53,7 +58,8 @@
       "kind": "analytical method",
       "maturity": "tested",
       "path": "skills/brian/behavioural-interaction-profile/README.md",
-      "note": "Optional downstream capability, independently callable or invoked from meeting workflow."
+      "note": "Optional downstream capability, independently callable or invoked from meeting workflow. Exact current source is not yet migrated.",
+      "repo_status": "placeholder"
     },
     {
       "id": "brian.hughes",
@@ -62,7 +68,8 @@
       "kind": "specialist skill",
       "maturity": "documented",
       "path": "skills/brian/strategic-evaluation/hughes/README.md",
-      "note": "v0.1 working specialist lens. Runtime binding not yet demonstrated."
+      "note": "v0.1 working specialist lens. Exact working skill source exists in Drive and is not yet migrated into GitHub.",
+      "repo_status": "placeholder"
     },
     {
       "id": "brian.greene",
@@ -71,7 +78,8 @@
       "kind": "specialist skill",
       "maturity": "documented",
       "path": "skills/brian/strategic-evaluation/greene/README.md",
-      "note": "v0.1 working specialist lens. Runtime binding not yet demonstrated."
+      "note": "v0.1 working specialist lens. Exact working skill source exists in Drive and is not yet migrated into GitHub.",
+      "repo_status": "placeholder"
     },
     {
       "id": "brian.carnegie-rory",
@@ -80,7 +88,8 @@
       "kind": "specialist skill",
       "maturity": "documented",
       "path": "skills/brian/strategic-evaluation/carnegie-rory/README.md",
-      "note": "v0.1 working specialist lens. Runtime binding not yet demonstrated."
+      "note": "v0.1 working specialist lens. Exact working skill source exists in Drive and is not yet migrated into GitHub.",
+      "repo_status": "placeholder"
     },
     {
       "id": "sybil.commitments",
@@ -89,7 +98,8 @@
       "kind": "system responsibility",
       "maturity": "architectural",
       "path": "docs/architecture/CURRENT_ARCHITECTURE.md",
-      "note": "Ownership established by 27 Aug reconciliation. Mature runtime remains to be built."
+      "note": "Ownership established by 27 Aug reconciliation. Mature runtime remains to be built.",
+      "repo_status": "migrating"
     },
     {
       "id": "fawlty.learning",
@@ -98,7 +108,8 @@
       "kind": "system responsibility",
       "maturity": "architectural",
       "path": "docs/architecture/CURRENT_ARCHITECTURE.md",
-      "note": "Local learning rolls upward; material push-back requires approval."
+      "note": "Local learning rolls upward; material push-back requires approval.",
+      "repo_status": "migrating"
     },
     {
       "id": "grail.strategic-arcs",
@@ -107,7 +118,8 @@
       "kind": "system responsibility",
       "maturity": "architectural",
       "path": "docs/architecture/CURRENT_ARCHITECTURE.md",
-      "note": "Architecturally defined; mature automation not demonstrated."
+      "note": "Architecturally defined; mature automation not demonstrated.",
+      "repo_status": "migrating"
     },
     {
       "id": "polly.integrations",
@@ -116,7 +128,8 @@
       "kind": "system responsibility",
       "maturity": "architectural",
       "path": "docs/architecture/CURRENT_ARCHITECTURE.md",
-      "note": "Orchestrator only, never source of truth."
+      "note": "Orchestrator only, never source of truth.",
+      "repo_status": "migrating"
     },
     {
       "id": "visual.execution",
@@ -125,7 +138,8 @@
       "kind": "interface/capability",
       "maturity": "designed",
       "path": "docs/visual/VISUAL_EXECUTION.md",
-      "note": "Strategic Pressure Map, AXIS4+1 and Gravity Channel design; implementation maturity must be verified separately."
+      "note": "Strategic Pressure Map, AXIS4+1 and Gravity Channel design; implementation maturity must be verified separately.",
+      "repo_status": "migrating"
     },
     {
       "id": "core.evidence-before-claims",
@@ -134,7 +148,8 @@
       "kind": "execution gate",
       "maturity": "candidate",
       "path": "skills/core/evidence-before-claims/SKILL.md",
-      "note": "BASIL generalisation of Verification Before Completion: proof required before material state/completion claims."
+      "note": "BASIL generalisation of Verification Before Completion: proof required before material state/completion claims.",
+      "repo_status": "canonical"
     },
     {
       "id": "lab.grilling",
@@ -143,7 +158,8 @@
       "kind": "experimental skill",
       "maturity": "candidate",
       "path": "skills/labs/grilling/SKILL.md",
-      "note": "Adapted experiment inspired by mattpocock/skills."
+      "note": "Adapted experiment inspired by mattpocock/skills.",
+      "repo_status": "canonical"
     },
     {
       "id": "lab.primary-source-research",
@@ -152,7 +168,8 @@
       "kind": "experimental skill",
       "maturity": "candidate",
       "path": "skills/labs/primary-source-research/SKILL.md",
-      "note": "Adapted experiment inspired by mattpocock/skills."
+      "note": "Adapted experiment inspired by mattpocock/skills.",
+      "repo_status": "canonical"
     },
     {
       "id": "lab.systematic-debugging",
@@ -161,7 +178,8 @@
       "kind": "experimental skill",
       "maturity": "candidate",
       "path": "skills/labs/systematic-debugging/SKILL.md",
-      "note": "Adapted experiment inspired by obra/superpowers."
+      "note": "Adapted experiment inspired by obra/superpowers.",
+      "repo_status": "canonical"
     },
     {
       "id": "lab.writing-for-agents",
@@ -170,7 +188,8 @@
       "kind": "experimental skill",
       "maturity": "candidate",
       "path": "skills/labs/writing-for-agents/SKILL.md",
-      "note": "Adapted experiment inspired by mattpocock/skills."
+      "note": "Adapted experiment inspired by mattpocock/skills.",
+      "repo_status": "canonical"
     },
     {
       "id": "lab.ceo-review",
@@ -179,7 +198,8 @@
       "kind": "experimental skill",
       "maturity": "candidate",
       "path": "skills/labs/ceo-review/SKILL.md",
-      "note": "Adapted experiment inspired by garrytan/gstack."
+      "note": "Adapted experiment inspired by garrytan/gstack.",
+      "repo_status": "canonical"
     },
     {
       "id": "lab.code-review",
@@ -188,7 +208,8 @@
       "kind": "experimental skill",
       "maturity": "candidate",
       "path": "skills/labs/code-review/SKILL.md",
-      "note": "Adapted experiment inspired by mattpocock/skills."
+      "note": "Adapted experiment inspired by mattpocock/skills.",
+      "repo_status": "canonical"
     },
     {
       "id": "lab.handoff",
@@ -197,7 +218,8 @@
       "kind": "experimental skill",
       "maturity": "candidate",
       "path": "skills/labs/handoff/SKILL.md",
-      "note": "Adapted experiment inspired by mattpocock/skills."
+      "note": "Adapted experiment inspired by mattpocock/skills.",
+      "repo_status": "canonical"
     },
     {
       "id": "lab.to-questionnaire",
@@ -206,7 +228,8 @@
       "kind": "experimental skill",
       "maturity": "candidate",
       "path": "skills/labs/to-questionnaire/SKILL.md",
-      "note": "Lower-priority candidate. Turns a missing-information problem into a questionnaire for the person who knows."
+      "note": "Lower-priority candidate. Turns a missing-information problem into a questionnaire for the person who knows.",
+      "repo_status": "canonical"
     },
     {
       "id": "integration.taste-skill",
@@ -215,7 +238,8 @@
       "kind": "third-party repository",
       "maturity": "candidate",
       "path": "integrations/taste-skill.md",
-      "note": "Candidate for full-package trial or selective installation."
+      "note": "Candidate for full-package trial or selective installation.",
+      "repo_status": "canonical"
     },
     {
       "id": "integration.diagram-design",
@@ -224,7 +248,8 @@
       "kind": "third-party repository",
       "maturity": "candidate",
       "path": "integrations/diagram-design.md",
-      "note": "Strong candidate for full-package trial with BASIL brand profile."
+      "note": "Strong candidate for full-package trial with BASIL brand profile.",
+      "repo_status": "canonical"
     },
     {
       "id": "integration.gstack",
@@ -233,7 +258,8 @@
       "kind": "third-party repository",
       "maturity": "candidate",
       "path": "integrations/gstack.md",
-      "note": "Repository-level adoption remains open alongside isolated CEO-review testing."
+      "note": "Repository-level adoption remains open alongside isolated CEO-review testing.",
+      "repo_status": "canonical"
     }
   ]
 }

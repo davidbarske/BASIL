@@ -3,7 +3,7 @@ setlocal
 cd /d "%~dp0"
 
 echo.
-echo BASIL BRITISH ANCHOR AUDITION v0.2 - SETUP
+echo BASIL BRITISH ANCHOR AUDITION v0.3 - SETUP
 echo.
 echo [PRELAUNCH] Checking PowerShell setup script...
 

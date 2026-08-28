@@ -14,5 +14,6 @@
     "sardonic": "understated contempt, slight pitch lift, clipped endings",
     "escalation": "brief acceleration and sudden intensity/pitch spike",
     "recovery": "abrupt return to controlled, formal composure"
-  }
+  },
+  "capability_version": "0.3"
 }

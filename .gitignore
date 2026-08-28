@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+.coverage
+.pytest_cache/
+
+# IDE / OS
+.DS_Store
+.idea/
+.vscode/
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+secrets/
+
+# Private evidence / recordings
+private/
+evidence/private/
+*.sqlite
+*.sqlite3
+*.m4a
+*.mp3
+*.wav
+*.flac
+*.aac
+*.mp4
+
+# Local outputs
+out/
+outputs/
+*.log

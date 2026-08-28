@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "project-basil"
+version = "0.1.0"
+description = "Executable core for Project BASIL"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+basil = "basil.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"basil.data" = ["*.json"]

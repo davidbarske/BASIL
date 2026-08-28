@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "capabilities": [
+    {
+      "id": "basil.controller",
+      "name": "BASIL controller",
+      "owner": "BASIL",
+      "kind": "controller",
+      "maturity": "architectural",
+      "path": "docs/governance/CONTROLLER_KERNEL.md",
+      "note": "Controller doctrine established; this repo provides only a small executable core so far."
+    },
+    {
+      "id": "manuel.interaction-evidence-ingest",
+      "name": "Interaction Evidence Ingest v1.9",
+      "owner": "MANUEL",
+      "kind": "skill/pipeline",
+      "maturity": "operational",
+      "path": "skills/manuel/interaction-evidence-ingest/README.md",
+      "note": "Operational contract proven in real meeting work; exact current source skill is still being migrated into this public repo."
+    },
+    {
+      "id": "manuel.diarisation-v2",
+      "name": "Community-1 diarisation runner v2",
+      "owner": "MANUEL",
+      "kind": "script",
+      "maturity": "tested",
+      "path": "skills/manuel/diarisation/README.md",
+      "note": "Real tested script exists in BASIL lineage. Public-repo migration is pending exact-source recovery and dependency packaging."
+    },
+    {
+      "id": "manuel.acoustic-enrichment",
+      "name": "Acoustic evidence enrichment",
+      "owner": "MANUEL",
+      "kind": "script/method",
+      "maturity": "tested",
+      "path": "skills/manuel/acoustic-enrichment/README.md",
+      "note": "Evidence/QC method only; not a psychological inference engine."
+    },
+    {
+      "id": "brian.meeting-intelligence",
+      "name": "BASIL Meeting Intelligence v1.9",
+      "owner": "BRIAN",
+      "kind": "skill/product",
+      "maturity": "operational",
+      "path": "skills/brian/meeting-intelligence/README.md",
+      "note": "Consumes finalised MANUEL evidence and produces evidence-disciplined Meeting Intelligence."
+    },
+    {
+      "id": "brian.behavioural-profile",
+      "name": "Behavioural / Interaction Profile",
+      "owner": "BRIAN",
+      "kind": "analytical method",
+      "maturity": "tested",
+      "path": "skills/brian/behavioural-interaction-profile/README.md",
+      "note": "Optional downstream capability, independently callable or invoked from meeting workflow."
+    },
+    {
+      "id": "brian.hughes",
+      "name": "Hughes Strategic Evaluation",
+      "owner": "BRIAN",
+      "kind": "specialist skill",
+      "maturity": "documented",
+      "path": "skills/brian/strategic-evaluation/hughes/README.md",
+      "note": "v0.1 working specialist lens. Runtime binding not yet demonstrated."
+    },
+    {
+      "id": "brian.greene",
+      "name": "Greene Strategic Evaluation",
+      "owner": "BRIAN",
+      "kind": "specialist skill",
+      "maturity": "documented",
+      "path": "skills/brian/strategic-evaluation/greene/README.md",
+      "note": "v0.1 working specialist lens. Runtime binding not yet demonstrated."
+    },
+    {
+      "id": "brian.carnegie-rory",
+      "name": "Carnegie-Rory Strategic Evaluation",
+      "owner": "BRIAN",
+      "kind": "specialist skill",
+      "maturity": "documented",
+      "path": "skills/brian/strategic-evaluation/carnegie-rory/README.md",
+      "note": "v0.1 working specialist lens. Runtime binding not yet demonstrated."
+    },
+    {
+      "id": "sybil.commitments",
+      "name": "Commitment, task and sequencing control",
+      "owner": "SYBIL",
+      "kind": "system responsibility",
+      "maturity": "architectural",
+      "path": "docs/architecture/CURRENT_ARCHITECTURE.md",
+      "note": "Ownership established by 27 Aug reconciliation. Mature runtime remains to be built."
+    },
+    {
+      "id": "fawlty.learning",
+      "name": "Cross-system learning and calibration",
+      "owner": "FAWLTY",
+      "kind": "system responsibility",
+      "maturity": "architectural",
+      "path": "docs/architecture/CURRENT_ARCHITECTURE.md",
+      "note": "Local learning rolls upward; material push-back requires approval."
+    },
+    {
+      "id": "grail.strategic-arcs",
+      "name": "Strategic arc protection",
+      "owner": "GRAIL",
+      "kind": "system responsibility",
+      "maturity": "architectural",
+      "path": "docs/architecture/CURRENT_ARCHITECTURE.md",
+      "note": "Architecturally defined; mature automation not demonstrated."
+    },
+    {
+      "id": "polly.integrations",
+      "name": "Integration orchestration",
+      "owner": "POLLY",
+      "kind": "system responsibility",
+      "maturity": "architectural",
+      "path": "docs/architecture/CURRENT_ARCHITECTURE.md",
+      "note": "Orchestrator only, never source of truth."
+    },
+    {
+      "id": "visual.execution",
+      "name": "Visual Execution Layer",
+      "owner": "BASIL",
+      "kind": "interface/capability",
+      "maturity": "designed",
+      "path": "docs/visual/VISUAL_EXECUTION.md",
+      "note": "Strategic Pressure Map, AXIS4+1 and Gravity Channel design; implementation maturity must be verified separately."
+    },
+    {
+      "id": "core.evidence-before-claims",
+      "name": "Evidence Before Claims",
+      "owner": "BASIL",
+      "kind": "execution gate",
+      "maturity": "candidate",
+      "path": "skills/core/evidence-before-claims/SKILL.md",
+      "note": "BASIL generalisation of Verification Before Completion: proof required before material state/completion claims."
+    },
+    {
+      "id": "lab.grilling",
+      "name": "Grilling / decision-frontier interview",
+      "owner": "LABS",
+      "kind": "experimental skill",
+      "maturity": "candidate",
+      "path": "skills/labs/grilling/SKILL.md",
+      "note": "Adapted experiment inspired by mattpocock/skills."
+    },
+    {
+      "id": "lab.primary-source-research",
+      "name": "Primary-source research",
+      "owner": "LABS",
+      "kind": "experimental skill",
+      "maturity": "candidate",
+      "path": "skills/labs/primary-source-research/SKILL.md",
+      "note": "Adapted experiment inspired by mattpocock/skills."
+    },
+    {
+      "id": "lab.systematic-debugging",
+      "name": "Systematic debugging",
+      "owner": "LABS",
+      "kind": "experimental skill",
+      "maturity": "candidate",
+      "path": "skills/labs/systematic-debugging/SKILL.md",
+      "note": "Adapted experiment inspired by obra/superpowers."
+    },
+    {
+      "id": "lab.writing-for-agents",
+      "name": "Writing for agents",
+      "owner": "LABS",
+      "kind": "experimental skill",
+      "maturity": "candidate",
+      "path": "skills/labs/writing-for-agents/SKILL.md",
+      "note": "Adapted experiment inspired by mattpocock/skills."
+    },
+    {
+      "id": "lab.ceo-review",
+      "name": "CEO / strategic plan review",
+      "owner": "LABS",
+      "kind": "experimental skill",
+      "maturity": "candidate",
+      "path": "skills/labs/ceo-review/SKILL.md",
+      "note": "Adapted experiment inspired by garrytan/gstack."
+    },
+    {
+      "id": "lab.code-review",
+      "name": "Two-axis code review",
+      "owner": "LABS",
+      "kind": "experimental skill",
+      "maturity": "candidate",
+      "path": "skills/labs/code-review/SKILL.md",
+      "note": "Adapted experiment inspired by mattpocock/skills."
+    },
+    {
+      "id": "lab.handoff",
+      "name": "Purpose-driven handoff",
+      "owner": "LABS",
+      "kind": "experimental skill",
+      "maturity": "candidate",
+      "path": "skills/labs/handoff/SKILL.md",
+      "note": "Adapted experiment inspired by mattpocock/skills."
+    },
+    {
+      "id": "lab.to-questionnaire",
+      "name": "Information-gap questionnaire",
+      "owner": "LABS",
+      "kind": "experimental skill",
+      "maturity": "candidate",
+      "path": "skills/labs/to-questionnaire/SKILL.md",
+      "note": "Lower-priority candidate. Turns a missing-information problem into a questionnaire for the person who knows."
+    },
+    {
+      "id": "integration.taste-skill",
+      "name": "Taste Skill",
+      "owner": "INTEGRATION",
+      "kind": "third-party repository",
+      "maturity": "candidate",
+      "path": "integrations/taste-skill.md",
+      "note": "Candidate for full-package trial or selective installation."
+    },
+    {
+      "id": "integration.diagram-design",
+      "name": "Diagram Design",
+      "owner": "INTEGRATION",
+      "kind": "third-party repository",
+      "maturity": "candidate",
+      "path": "integrations/diagram-design.md",
+      "note": "Strong candidate for full-package trial with BASIL brand profile."
+    },
+    {
+      "id": "integration.gstack",
+      "name": "gstack",
+      "owner": "INTEGRATION",
+      "kind": "third-party repository",
+      "maturity": "candidate",
+      "path": "integrations/gstack.md",
+      "note": "Repository-level adoption remains open alongside isolated CEO-review testing."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # BASIL
 
-![BASIL working mark](assets/brand/basil-logo.png)
+![BASIL working mark](assets/brand/basil-logo.svg)
 
 BASIL is a strategic operating environment for turning messy real-world information into preserved evidence, intelligence, decisions, commitments, execution and learning.
 

@@ -56,6 +56,10 @@ State capability maturity accurately:
 
 A design document is not a build. A committed file is not a running service. A passing unit test is not production deployment.
 
+## Lightweight working branches
+
+For substantive migration or build changes, use a short-lived `work/<topic>` branch from the current `main`. Keep the related change together, let the normal verification run on the branch and advance `main` only once that branch tip is green. Re-check `main` before promotion and never force-update it. Small documentation-only fixes may still go directly to `main`.
+
 ## Public repository boundary
 
 This repository is public. Never commit:

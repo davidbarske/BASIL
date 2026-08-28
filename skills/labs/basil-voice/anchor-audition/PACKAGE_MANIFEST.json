@@ -1,0 +1,20 @@
+{
+  "package": "BASIL_BRITISH_ANCHOR_AUDITION_v0.1",
+  "status": "BUILT_NOT_WINDOWS_RUNTIME_TESTED",
+  "purpose": "British accent and base vocal-family lock before expressive synthesis",
+  "engine": "Kokoro 82M",
+  "voices": [
+    "bm_george",
+    "bm_fable",
+    "bm_lewis",
+    "bm_daniel",
+    "bm_george,bm_fable",
+    "bm_george,bm_lewis",
+    "bm_fable,bm_lewis"
+  ],
+  "derived_reference_metrics": {
+    "best_of_basil": {"median_hz": 261.0, "p10_hz": 120.3, "p90_hz": 388.4},
+    "bbc_audiobook_extract": {"median_hz": 218.6, "p10_hz": 122.5, "p90_hz": 325.1}
+  },
+  "identity_constraint": "Original synthetic BASIL identity. No cloning of an identifiable real person."
+}

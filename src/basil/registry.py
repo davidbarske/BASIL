@@ -20,6 +20,8 @@ _ALLOWED_MATURITY = {
     "recovery-pending",
 }
 
+_ALLOWED_REPO_STATUS = {"placeholder", "migrating", "canonical", "retired"}
+
 
 @dataclass(frozen=True)
 class Capability:
@@ -28,6 +30,7 @@ class Capability:
     owner: str
     kind: str
     maturity: str
+    repo_status: str
     path: str | None
     note: str
 
@@ -51,14 +54,18 @@ def validate_capabilities(items: Iterable[Capability]) -> None:
         seen.add(item.id)
         if item.maturity not in _ALLOWED_MATURITY:
             raise ValueError(f"invalid maturity for {item.id}: {item.maturity}")
+        if item.repo_status not in _ALLOWED_REPO_STATUS:
+            raise ValueError(f"invalid repo status for {item.id}: {item.repo_status}")
         if not item.owner.strip():
             raise ValueError(f"missing owner for {item.id}")
 
 
-def filter_capabilities(*, owner: str | None = None, maturity: str | None = None) -> list[Capability]:
+def filter_capabilities(*, owner: str | None = None, maturity: str | None = None, repo_status: str | None = None) -> list[Capability]:
     items = load_capabilities()
     if owner:
         items = [x for x in items if x.owner.lower() == owner.lower()]
     if maturity:
         items = [x for x in items if x.maturity.lower() == maturity.lower()]
+    if repo_status:
+        items = [x for x in items if x.repo_status.lower() == repo_status.lower()]
     return items

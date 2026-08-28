@@ -23,15 +23,20 @@ class RegistryTests(unittest.TestCase):
         self.assertTrue(placeholders)
         self.assertTrue(all(x.repo_status == "placeholder" for x in placeholders))
 
-    def test_high_value_meeting_sources_remain_explicit_placeholders(self):
+    def test_unrecovered_high_value_skill_sources_remain_explicit_placeholders(self):
         by_id = {x.id: x for x in load_capabilities()}
         for capability_id in {
             "manuel.interaction-evidence-ingest",
-            "manuel.diarisation-v2",
-            "manuel.acoustic-enrichment",
             "brian.meeting-intelligence",
         }:
             self.assertEqual(by_id[capability_id].repo_status, "placeholder")
+
+    def test_recovered_manuel_sources_are_migrating_not_canonical(self):
+        by_id = {x.id: x for x in load_capabilities()}
+        self.assertEqual(by_id["manuel.diarisation-v2"].repo_status, "migrating")
+        self.assertEqual(by_id["manuel.diarisation-v2"].maturity, "tested")
+        self.assertEqual(by_id["manuel.acoustic-enrichment"].repo_status, "migrating")
+        self.assertEqual(by_id["manuel.acoustic-enrichment"].maturity, "tested")
 
     def test_strategic_evaluation_exact_sources_are_canonical_but_not_promoted(self):
         by_id = {x.id: x for x in load_capabilities()}

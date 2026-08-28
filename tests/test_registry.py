@@ -36,10 +36,15 @@ class RegistryTests(unittest.TestCase):
             self.assertEqual(capability.path, path)
             self.assertIn("v2.0 FINAL", capability.name)
 
-    def test_recovered_manuel_sources_are_migrating_not_canonical(self):
+    def test_diarisation_exact_source_is_canonical_and_acoustics_remains_migrating(self):
         by_id = {x.id: x for x in load_capabilities()}
-        self.assertEqual(by_id["manuel.diarisation-v2"].repo_status, "migrating")
-        self.assertEqual(by_id["manuel.diarisation-v2"].maturity, "tested")
+        diarisation = by_id["manuel.diarisation-v2"]
+        self.assertEqual(diarisation.repo_status, "canonical")
+        self.assertEqual(diarisation.maturity, "tested")
+        self.assertEqual(
+            diarisation.path,
+            "skills/manuel/diarisation/diarise_meetings_v2.py",
+        )
         self.assertEqual(by_id["manuel.acoustic-enrichment"].repo_status, "migrating")
         self.assertEqual(by_id["manuel.acoustic-enrichment"].maturity, "tested")
 

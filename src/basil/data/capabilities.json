@@ -27,9 +27,9 @@
       "owner": "MANUEL",
       "kind": "script",
       "maturity": "tested",
-      "path": "skills/manuel/diarisation/README.md",
-      "note": "Exact 66,544-byte v2.0.0 source recovered from Drive and hashed; byte-for-byte public GitHub transfer remains pending.",
-      "repo_status": "migrating"
+      "path": "skills/manuel/diarisation/diarise_meetings_v2.py",
+      "note": "Exact 66,544-byte v2.0.0 Drive source committed byte-for-byte; SHA-256 6aae3e4200116aef7a8177fbfeada915620a27f28b8fb815bf1b3a36958454e8 and Git blob 0239ef918c5042da1c8702cccfaa3f38225316a2 verified.",
+      "repo_status": "canonical"
     },
     {
       "id": "manuel.acoustic-enrichment",

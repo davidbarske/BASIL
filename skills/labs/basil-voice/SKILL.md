@@ -1,6 +1,6 @@
-# BASIL Voice Capability v0.1
+# BASIL Voice Capability v0.3
 
-**Status:** BUILT - runtime validation pending  
+**Status:** BUILT - Windows bootstrap validation in progress  
 **Owner:** BASIL
 
 ## Objective
@@ -19,15 +19,6 @@ The production voice must remain a distinct fictional identity and must not imit
 ## Commands
 `RUN_SETUP.cmd` -> `RUN_DESIGN_VOICE.cmd` -> `RUN_SPEAK_TEST.cmd` -> `START_LOCAL_API.cmd`
 
-Direct Python path after dependencies are installed:
-
-```text
-python basil_voice.py doctor
-python basil_voice.py design
-python basil_voice.py speak "Text to speak."
-python basil_voice.py serve
-```
-
 ## Outputs
 - `voice/basil_reference.wav`
 - `voice/basil_voice_lock.json`
@@ -36,3 +27,9 @@ python basil_voice.py serve
 
 ## Validation gate
 Do not call this TESTED or DEPLOYED until setup, voice design, arbitrary speech and local API playback have succeeded on the target Windows machine. Final reference-corpus comparison is a confirmation step, not a build prerequisite.
+
+## v0.1 validation evidence
+The first Windows setup attempt stopped before environment creation because Python 3.12 was absent. This was a prerequisite-handling defect in the package, not a Qwen runtime failure. v0.2 promoted Python acquisition into the self-bootstrapping setup path.
+
+## v0.3 bootstrap correction
+The v0.2 Windows run demonstrated that Python 3.12 could be installed by the self-bootstrapper. The failure was in PowerShell result handling: native stdout escaped from `Invoke-NativeChecked` and contaminated the function's numeric return value. v0.3 routes native output to the host, returns only the actual exit code and verifies Python directly before deciding whether to retry.

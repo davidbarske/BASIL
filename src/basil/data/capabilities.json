@@ -18,7 +18,7 @@
       "kind": "skill/pipeline",
       "maturity": "operational",
       "path": "skills/manuel/interaction-evidence-ingest/README.md",
-      "note": "Operational contract proven in real meeting work; exact current source skill is still being migrated into this public repo.",
+      "note": "Operational contract proven in real meeting work; exact current source skill remains File Library-only and has not yet been recovered byte-for-byte into this public repo.",
       "repo_status": "placeholder"
     },
     {
@@ -28,8 +28,8 @@
       "kind": "script",
       "maturity": "tested",
       "path": "skills/manuel/diarisation/README.md",
-      "note": "Real tested script exists in BASIL lineage. Public-repo migration is pending exact-source recovery and dependency packaging.",
-      "repo_status": "placeholder"
+      "note": "Exact 66,544-byte v2.0.0 source recovered from Drive and hashed; byte-for-byte public GitHub transfer remains pending.",
+      "repo_status": "migrating"
     },
     {
       "id": "manuel.acoustic-enrichment",
@@ -38,8 +38,8 @@
       "kind": "script/method",
       "maturity": "tested",
       "path": "skills/manuel/acoustic-enrichment/README.md",
-      "note": "Evidence/QC method only; exact current source is not yet migrated into this public repo.",
-      "repo_status": "placeholder"
+      "note": "Exact tested source recovered and hashed in Drive, but it contains case-specific participant/project data and hard-coded Meeting 02 paths. Public-safe reusable refactor plus validation is required before canonicalisation.",
+      "repo_status": "migrating"
     },
     {
       "id": "brian.meeting-intelligence",
@@ -48,7 +48,7 @@
       "kind": "skill/product",
       "maturity": "operational",
       "path": "skills/brian/meeting-intelligence/README.md",
-      "note": "Consumes finalised MANUEL evidence and produces evidence-disciplined Meeting Intelligence. Exact v1.9 source is still being recovered.",
+      "note": "Consumes finalised MANUEL evidence and produces evidence-disciplined Meeting Intelligence. Exact v1.9 source remains File Library-only and has not yet been recovered byte-for-byte into this public repo.",
       "repo_status": "placeholder"
     },
     {

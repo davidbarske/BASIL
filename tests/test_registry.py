@@ -33,6 +33,19 @@ class RegistryTests(unittest.TestCase):
         }:
             self.assertEqual(by_id[capability_id].repo_status, "placeholder")
 
+    def test_strategic_evaluation_exact_sources_are_canonical_but_not_promoted(self):
+        by_id = {x.id: x for x in load_capabilities()}
+        expected_paths = {
+            "brian.hughes": "skills/brian/strategic-evaluation/hughes/SKILL.md",
+            "brian.greene": "skills/brian/strategic-evaluation/greene/SKILL.md",
+            "brian.carnegie-rory": "skills/brian/strategic-evaluation/carnegie-rory/SKILL.md",
+        }
+        for capability_id, path in expected_paths.items():
+            capability = by_id[capability_id]
+            self.assertEqual(capability.repo_status, "canonical")
+            self.assertEqual(capability.maturity, "documented")
+            self.assertEqual(capability.path, path)
+
 
 if __name__ == "__main__":
     unittest.main()

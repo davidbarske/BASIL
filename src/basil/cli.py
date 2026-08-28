@@ -18,9 +18,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("urgency", type=int, help="urgency score, 1–10")
     p.add_argument("--json", action="store_true", dest="as_json")
 
-    p = sub.add_parser("capabilities", help="list registered BASIL capabilities and maturity")
+    p = sub.add_parser("capabilities", help="list registered BASIL capabilities, maturity and repository migration state")
     p.add_argument("--owner")
     p.add_argument("--maturity")
+    p.add_argument("--repo-status", choices=["placeholder", "migrating", "canonical", "retired"])
     p.add_argument("--json", action="store_true", dest="as_json")
 
     sub.add_parser("doctor", help="verify repository structure and registered local artefacts")
@@ -49,12 +50,12 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "capabilities":
-        items = filter_capabilities(owner=args.owner, maturity=args.maturity)
+        items = filter_capabilities(owner=args.owner, maturity=args.maturity, repo_status=args.repo_status)
         if args.as_json:
             print(json.dumps([x.__dict__ for x in items], indent=2))
         else:
             for x in items:
-                print(f"{x.id:42} {x.owner:10} {x.maturity:16} {x.name}")
+                print(f"{x.id:42} {x.owner:10} {x.maturity:16} {x.repo_status:12} {x.name}")
         return 0
 
     if args.command == "doctor":

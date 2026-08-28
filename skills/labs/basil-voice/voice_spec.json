@@ -1,0 +1,18 @@
+{
+  "name": "BASIL Original Voice v0.1",
+  "status": "BUILT_NOT_RUNTIME_TESTED",
+  "purpose": "Create and operate an original fictional BASIL voice locally.",
+  "identity_rule": "Distinct original identity. Do not imitate or clone any real identifiable person.",
+  "language": "English",
+  "design_model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "runtime_model": "Qwen/Qwen3-TTS-12Hz-0.6B-Base",
+  "instruct": "Original fictional British male voice, middle-aged, educated Southern British / RP-influenced but not aristocratic. Dry, resonant baritone-leaning tenor with precise consonants and quick thought-to-speech coordination. Default delivery is measured, economical and authoritative, with mild impatience under the surface. Sarcasm is conveyed through slight pitch lift, clipped phrase endings and deliberate pauses rather than caricature. Under pressure the voice can accelerate, jump sharply in pitch and intensity for a phrase, then snap back to formal composure. Capable of brittle politeness, wounded dignity, pedantic explanation, sardonic understatement and exasperated disbelief. Restrained theatricality, strong timing and clean diction. Distinct original identity, not an imitation of any real person.",
+  "performance_modes": {
+    "default": "measured, precise, dry authority",
+    "brittle_politeness": "formal courtesy with audible impatience held just below the surface",
+    "pedantic": "careful explanation, pointed stress on corrective words",
+    "sardonic": "understated contempt, slight pitch lift, clipped endings",
+    "escalation": "brief acceleration and sudden intensity/pitch spike",
+    "recovery": "abrupt return to controlled, formal composure"
+  }
+}

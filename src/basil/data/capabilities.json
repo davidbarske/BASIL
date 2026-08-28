@@ -67,9 +67,9 @@
       "owner": "BRIAN",
       "kind": "specialist skill",
       "maturity": "documented",
-      "path": "skills/brian/strategic-evaluation/hughes/README.md",
-      "note": "v0.1 working specialist lens. Exact working skill source exists in Drive and is not yet migrated into GitHub.",
-      "repo_status": "placeholder"
+      "path": "skills/brian/strategic-evaluation/hughes/SKILL.md",
+      "note": "Exact v0.1 working skill migrated from Drive ID 1vI3rTmmEVy6CvQJNZY_hmmU6s-clPZzh; runtime binding and empirical testing remain to be demonstrated separately.",
+      "repo_status": "canonical"
     },
     {
       "id": "brian.greene",
@@ -77,9 +77,9 @@
       "owner": "BRIAN",
       "kind": "specialist skill",
       "maturity": "documented",
-      "path": "skills/brian/strategic-evaluation/greene/README.md",
-      "note": "v0.1 working specialist lens. Exact working skill source exists in Drive and is not yet migrated into GitHub.",
-      "repo_status": "placeholder"
+      "path": "skills/brian/strategic-evaluation/greene/SKILL.md",
+      "note": "Exact v0.1 working skill migrated from Drive ID 1M93O0aBiIO3rp4tzvUa1vnZ9C7IiXsxF; runtime binding and empirical testing remain to be demonstrated separately.",
+      "repo_status": "canonical"
     },
     {
       "id": "brian.carnegie-rory",
@@ -87,9 +87,9 @@
       "owner": "BRIAN",
       "kind": "specialist skill",
       "maturity": "documented",
-      "path": "skills/brian/strategic-evaluation/carnegie-rory/README.md",
-      "note": "v0.1 working specialist lens. Exact working skill source exists in Drive and is not yet migrated into GitHub.",
-      "repo_status": "placeholder"
+      "path": "skills/brian/strategic-evaluation/carnegie-rory/SKILL.md",
+      "note": "Exact v0.1 working skill migrated from Drive ID 1SRP241k8n_4BD8BMypXUxpCEDetRPoej; runtime binding and empirical testing remain to be demonstrated separately.",
+      "repo_status": "canonical"
     },
     {
       "id": "sybil.commitments",

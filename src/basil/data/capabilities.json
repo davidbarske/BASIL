@@ -108,7 +108,7 @@
       "kind": "system capability/core primitive",
       "maturity": "tested",
       "path": "src/basil/fawlty.py",
-      "note": "Tested core learning record and change-proposal gate. Learning preserves evidence references and optional expected-vs-actual calibration; non-material changes are local-only; cross-component/material changes remain blocked until explicit approval is recorded. Archive archaeology and broader learning automation remain separate work.",
+      "note": "Tested core learning record and change-proposal gate. Learning preserves evidence references and optional expected-vs-actual calibration; non-material changes are local-only; cross-component/material changes remain blocked until explicit approval is recorded. Archive archaeology remains a separate working pilot with public-safe provenance in docs/learning/FAWLTY_ARCHAEOLOGY_PILOT_PROVENANCE.md.",
       "repo_status": "canonical"
     },
     {
@@ -118,8 +118,8 @@
       "kind": "system responsibility",
       "maturity": "architectural",
       "path": "docs/architecture/CURRENT_ARCHITECTURE.md",
-      "note": "Architecturally defined; mature automation not demonstrated.",
-      "repo_status": "migrating"
+      "note": "Current GRAIL responsibility is fully represented in the canonical architecture: protect strategic arcs and longer-horizon intent. Mature automation is not demonstrated and remains future build work, not a migration gap.",
+      "repo_status": "canonical"
     },
     {
       "id": "polly.integrations",
@@ -128,8 +128,8 @@
       "kind": "system responsibility",
       "maturity": "architectural",
       "path": "docs/architecture/CURRENT_ARCHITECTURE.md",
-      "note": "Orchestrator only, never source of truth.",
-      "repo_status": "migrating"
+      "note": "Current POLLY responsibility is fully represented in the canonical architecture: orchestrate integrations while never becoming source of truth. A mature orchestration runtime remains future build work, not a migration gap.",
+      "repo_status": "canonical"
     },
     {
       "id": "visual.execution",

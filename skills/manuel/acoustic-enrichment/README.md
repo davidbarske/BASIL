@@ -1,11 +1,13 @@
-# MANUEL acoustic enrichment — migration record
+# MANUEL acoustic enrichment
 
-**Known tested source:** `acoustic_enrich.py`  
-**Maturity:** BUILT + TESTED supporting method  
-**Repository status:** MIGRATING
+**Owner:** MANUEL  
+**Maturity:** TESTED supporting method  
+**Repository status:** CANONICAL
 
-Role: extract acoustic and quality-control evidence that can support later reconciliation and analysis. It is explicitly **not** a psychological inference engine.
+`acoustic_enrich.py` is the public-safe reusable acoustic-evidence processor extracted from the empirically tested Meeting 02 implementation. It preserves the tested acoustic/QC mechanism while removing meeting-specific paths, participant/project identifiers, source IDs and skill-learning side effects.
 
-The tested meeting evidence model includes dense acoustic frames/summaries, speech activity and measures such as MFCC/F0/HNR-related or proxy features, LPC/spectral evidence, SNR, clipping/dropout evidence where available. Deep acoustic passes remain conditional rather than routine blockers.
+Its role is evidential: acoustic frames and summaries, speech activity, quality measures, spectral evidence, MFCC fingerprints and related comparison support. It is **not** a psychological inference engine.
 
-The exact tested source has now been recovered from Drive and hashed. See [`SOURCE_RECOVERY.md`](./SOURCE_RECOVERY.md). Inspection confirms that it is a case-specific empirical script with hard-coded Meeting 02 paths and participant/project identifiers. Because this repository is public, the exact private/case-specific script remains in Drive. A case-neutral reusable implementation must be extracted and validated before the public repository state can become canonical.
+The exact case-specific empirical source remains private in Google Drive as provenance evidence. See [`SOURCE_RECOVERY.md`](./SOURCE_RECOVERY.md) and [`VALIDATION.md`](./VALIDATION.md).
+
+Canonical repository status means this is the current public BASIL implementation of the acoustic-enrichment method. It does **not** promote maturity beyond TESTED. The public refactor was matched exactly to the historical implementation on an appropriate frozen Meeting 02 evidence window after preserving the one-second look-ahead required at the comparison boundary. A complete 107-minute refactor rerun has not been claimed.

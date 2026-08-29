@@ -37,9 +37,9 @@
       "owner": "MANUEL",
       "kind": "script/method",
       "maturity": "tested",
-      "path": "skills/manuel/acoustic-enrichment/README.md",
-      "note": "Exact tested source recovered and hashed in Drive, but it contains case-specific participant/project data and hard-coded Meeting 02 paths. Public-safe reusable refactor plus validation is required before canonicalisation.",
-      "repo_status": "migrating"
+      "path": "skills/manuel/acoustic-enrichment/acoustic_enrich.py",
+      "note": "Case-neutral public refactor of the exact private/tested Meeting 02 source. Frozen 60-second compatibility check reproduced historical outputs exactly with required look-ahead; full 107-minute refactor rerun is not claimed. Private empirical source remains in Drive.",
+      "repo_status": "canonical"
     },
     {
       "id": "brian.meeting-intelligence",
@@ -57,9 +57,9 @@
       "owner": "BRIAN",
       "kind": "analytical method",
       "maturity": "tested",
-      "path": "skills/brian/behavioural-interaction-profile/README.md",
-      "note": "Optional downstream capability, independently callable or invoked from meeting workflow. Exact current source is not yet migrated.",
-      "repo_status": "placeholder"
+      "path": "skills/brian/meeting-intelligence/SKILL.md",
+      "note": "Current canonical implementation is the optional behavioural and interaction extension in Meeting Intelligence v2.0 FINAL. Historical standalone/module lineage is evidence only and is not silently revived.",
+      "repo_status": "canonical"
     },
     {
       "id": "brian.hughes",

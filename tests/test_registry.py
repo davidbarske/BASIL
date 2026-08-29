@@ -1,4 +1,5 @@
 import unittest
+from pathlib import Path
 
 from basil.registry import filter_capabilities, load_capabilities
 
@@ -36,7 +37,7 @@ class RegistryTests(unittest.TestCase):
             self.assertEqual(capability.path, path)
             self.assertIn("v2.0 FINAL", capability.name)
 
-    def test_diarisation_exact_source_is_canonical_and_acoustics_remains_migrating(self):
+    def test_diarisation_and_acoustic_sources_are_canonical_without_maturity_inflation(self):
         by_id = {x.id: x for x in load_capabilities()}
         diarisation = by_id["manuel.diarisation-v2"]
         self.assertEqual(diarisation.repo_status, "canonical")
@@ -45,8 +46,27 @@ class RegistryTests(unittest.TestCase):
             diarisation.path,
             "skills/manuel/diarisation/diarise_meetings_v2.py",
         )
-        self.assertEqual(by_id["manuel.acoustic-enrichment"].repo_status, "migrating")
-        self.assertEqual(by_id["manuel.acoustic-enrichment"].maturity, "tested")
+
+        acoustics = by_id["manuel.acoustic-enrichment"]
+        self.assertEqual(acoustics.repo_status, "canonical")
+        self.assertEqual(acoustics.maturity, "tested")
+        self.assertEqual(
+            acoustics.path,
+            "skills/manuel/acoustic-enrichment/acoustic_enrich.py",
+        )
+        source_path = Path(__file__).parents[1] / acoustics.path
+        source = source_path.read_text(encoding="utf-8")
+        compile(source, str(source_path), "exec")
+        for private_marker in ("MEETING_02", "/mnt/data/", "1OjkfJBCOr4Gb15IFJsBrojrCYQTv0rN6"):
+            self.assertNotIn(private_marker, source)
+
+    def test_behavioural_profile_routes_to_current_meeting_intelligence_extension(self):
+        by_id = {x.id: x for x in load_capabilities()}
+        capability = by_id["brian.behavioural-profile"]
+        self.assertEqual(capability.repo_status, "canonical")
+        self.assertEqual(capability.maturity, "tested")
+        self.assertEqual(capability.path, "skills/brian/meeting-intelligence/SKILL.md")
+        self.assertIn("optional behavioural", capability.note.lower())
 
     def test_strategic_evaluation_exact_sources_are_canonical_but_not_promoted(self):
         by_id = {x.id: x for x in load_capabilities()}

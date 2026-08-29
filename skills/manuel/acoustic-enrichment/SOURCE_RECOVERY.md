@@ -1,31 +1,29 @@
-# MANUEL acoustic enrichment — exact-source recovery record
+# MANUEL acoustic enrichment — source recovery and public migration
 
-**Status:** EXACT HISTORICAL/TESTED SOURCE RECOVERED — PUBLIC-SAFE REFACTOR REQUIRED  
-**Capability maturity:** TESTED supporting method  
-**Repository migration state:** MIGRATING
-
-## Recovered source
+## Private empirical source
 
 - File: `acoustic_enrich.py`
 - Drive file ID: `1OjkfJBCOr4Gb15IFJsBrojrCYQTv0rN6`
-- Drive repository area: `02_MEETING_PROCESSING_AND_INTELLIGENCE`
 - Size: `28,942` bytes
 - SHA-256: `938c1688f6c9c829370481c35093f3bd12c3585ad2703fb5f0bac64b3b0f33f8`
-- Git blob SHA if committed byte-for-byte: `77e40693820144f36b3f3512f115ebd2ed35c622`
+- Expected byte-for-byte Git blob: `77e40693820144f36b3f3512f115ebd2ed35c622`
 
-The exact recovered file is a staged empirical implementation rather than a clean reusable public module. Inspection shows hard-coded Meeting 02 paths and case-specific participant/project identifiers, including ARC, Adaiah and David. Because `davidbarske/BASIL` is public, the exact script must remain in the private Drive evidence/method repository rather than being copied byte-for-byte into GitHub.
+That exact tested file is deliberately **not** copied into this public repository. It contains hard-coded Meeting 02 paths and case-specific participant/project identifiers. It remains private provenance evidence in Drive.
 
-## Migration treatment
+## Public reusable implementation
 
-Do not call the existing GitHub placeholder an exact-source migration. The next public-repository step is to extract/refactor the reusable acoustic-evidence mechanism into a case-neutral module, then validate that refactor against frozen meeting evidence before changing repository status to `canonical`.
+The current public implementation is [`acoustic_enrich.py`](./acoustic_enrich.py).
 
-The required gate is:
+- Public refactor SHA-256: `9b88e0ee96eb2a5f61f4f8ee518636cd078e341bb770f1d3d9a92c74fa9adbe9`
+- Git blob: `9655dba310936eeec49a75283bab029c24d809e8`
+- Case-specific paths/participants/source IDs removed
+- Inputs and outputs are parameterised rather than bound to `/mnt/data/MEETING_02...`
+- Historical skill-learning side effects are excluded from the reusable processor
 
-1. preserve this exact source in Drive with its hash and provenance;
-2. produce a case-neutral implementation without private participant/project data or fixed `/mnt/data/MEETING_02...` paths;
-3. demonstrate output compatibility on appropriate frozen test evidence;
-4. document any intentional behavioural differences;
-5. run repository verification/CI;
-6. only then mark the public implementation canonical.
+The refactor preserves the acoustic algorithms rather than preserving case-specific orchestration. See [`VALIDATION.md`](./VALIDATION.md) for the empirical compatibility boundary.
 
-This is a public-repository boundary and packaging/refactor issue, not evidence that the tested acoustic method did not exist.
+## Canonicality boundary
+
+The public implementation is repository-canonical at TESTED maturity because it satisfies the migration gate: exact private source preserved with provenance, case-neutral implementation produced, compatibility demonstrated against appropriate frozen empirical evidence, intentional differences documented and repository verification required before promotion to `main`.
+
+This does not mean every possible recording has been reprocessed with the refactor. In particular, the full 107-minute Meeting 02 rerun was not completed within the available execution window and is not claimed as verified.

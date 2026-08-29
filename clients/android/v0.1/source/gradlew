@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+set -e
+if command -v gradle >/dev/null 2>&1; then
+  exec gradle "$@"
+fi
+printf '%s\n' "Gradle is not installed on PATH. Open the project in Android Studio, or install Gradle 8.9 and run this script again." >&2
+exit 1

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Basil" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:statusBarColor">@color/basil_window</item>
+        <item name="android:navigationBarColor">@color/basil_window</item>
+        <item name="android:windowBackground">@color/basil_window</item>
+    </style>
+</resources>

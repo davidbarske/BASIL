@@ -6,10 +6,10 @@
       "name": "BASIL controller",
       "owner": "BASIL",
       "kind": "controller",
-      "maturity": "architectural",
+      "maturity": "documented",
       "path": "docs/governance/CONTROLLER_KERNEL.md",
-      "note": "Controller doctrine established; this repo provides only a small executable core so far.",
-      "repo_status": "migrating"
+      "note": "Current public controller representation reconciled against Drive Controller Kernel v1.0 and Current Reconciliation Decisions through 28 August 2026. GitHub is canonical for this repository representation; runtime/chat enforcement remains a separate execution surface.",
+      "repo_status": "canonical"
     },
     {
       "id": "manuel.interaction-evidence-ingest",

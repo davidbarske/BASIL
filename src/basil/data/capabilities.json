@@ -163,12 +163,12 @@
     },
     {
       "id": "lab.grilling",
-      "name": "Grilling / decision-frontier interview",
-      "owner": "LABS",
-      "kind": "experimental skill",
-      "maturity": "candidate",
+      "name": "GrillMe / decision-frontier interview",
+      "owner": "BASIL",
+      "kind": "adopted skill",
+      "maturity": "tested",
       "path": "skills/labs/grilling/SKILL.md",
-      "note": "Adapted experiment inspired by mattpocock/skills.",
+      "note": "Formally adopted by David on 29 August 2026 after positive live use. Use proactively but selectively for material plans and decisions with unresolved assumptions, choices or dependencies. Stable historical lab ID/path retained to preserve lineage.",
       "repo_status": "canonical"
     },
     {
@@ -203,12 +203,12 @@
     },
     {
       "id": "lab.ceo-review",
-      "name": "CEO / strategic plan review",
+      "name": "Ask the CEO / strategic plan review",
       "owner": "LABS",
       "kind": "experimental skill",
       "maturity": "candidate",
       "path": "skills/labs/ceo-review/SKILL.md",
-      "note": "Adapted experiment inspired by garrytan/gstack.",
+      "note": "Positive live-use signal reported 29 August 2026. Manifest hardened for Agent Skills portability and Ask-the-CEO discovery, but reliable ordinary-chat activation/runtime binding remains unverified; no claim is made that the skill is globally installed or Work-only.",
       "repo_status": "canonical"
     },
     {

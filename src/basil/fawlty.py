@@ -31,7 +31,7 @@ class ChangeProposal:
     approval_ref: str | None = None
 
     @property
-    def can_apply(self) -> bool:
+    def approval_gate_allows_application(self) -> bool:
         return (not self.material) or self.approval_status is ApprovalStatus.APPROVED
 
 
@@ -70,9 +70,12 @@ def propose_change(
     proposed_change: str,
     material: bool,
 ) -> ChangeProposal:
+    target = _require_text(target_component, "target_component")
+    if not material and target.casefold() != record.source_component.casefold():
+        raise ValueError("cross-component changes must be treated as material and approval-gated")
     return ChangeProposal(
         source_record=record,
-        target_component=_require_text(target_component, "target_component"),
+        target_component=target,
         proposed_change=_require_text(proposed_change, "proposed_change"),
         material=bool(material),
         approval_status=ApprovalStatus.PENDING if material else ApprovalStatus.NOT_REQUIRED,
@@ -81,7 +84,7 @@ def propose_change(
 
 def approve_material_change(proposal: ChangeProposal, *, approval_ref: str) -> ChangeProposal:
     if not proposal.material:
-        raise ValueError("non-material proposals do not require approval")
+        raise ValueError("non-material local proposals do not require approval")
     return replace(
         proposal,
         approval_status=ApprovalStatus.APPROVED,
@@ -91,7 +94,7 @@ def approve_material_change(proposal: ChangeProposal, *, approval_ref: str) -> C
 
 def reject_material_change(proposal: ChangeProposal, *, approval_ref: str) -> ChangeProposal:
     if not proposal.material:
-        raise ValueError("non-material proposals do not require approval")
+        raise ValueError("non-material local proposals do not require approval")
     return replace(
         proposal,
         approval_status=ApprovalStatus.REJECTED,

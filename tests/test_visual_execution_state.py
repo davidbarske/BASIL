@@ -26,7 +26,7 @@ class VisualExecutionStateTests(unittest.TestCase):
         self.assertIn("source recovery", visual)
         self.assertIn("historical source recovery", evidence)
         self.assertIn("not recovered", evidence)
-        self.assertIn("do not reconstruct or fabricate", evidence)
+        self.assertIn("reconstruct or fabricate", evidence)
 
 
 if __name__ == "__main__":

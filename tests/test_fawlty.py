@@ -45,7 +45,7 @@ class FawltyLearningTests(unittest.TestCase):
             material=True,
         )
         self.assertEqual(proposal.approval_status, ApprovalStatus.PENDING)
-        self.assertFalse(proposal.can_apply)
+        self.assertFalse(proposal.approval_gate_allows_application)
 
     def test_material_change_requires_explicit_approval_reference(self):
         record = learning_record(
@@ -62,7 +62,7 @@ class FawltyLearningTests(unittest.TestCase):
         )
         approved = approve_material_change(proposal, approval_ref="operator:decision-001")
         self.assertEqual(approved.approval_status, ApprovalStatus.APPROVED)
-        self.assertTrue(approved.can_apply)
+        self.assertTrue(approved.approval_gate_allows_application)
         self.assertEqual(approved.approval_ref, "operator:decision-001")
 
     def test_rejected_material_change_remains_blocked(self):
@@ -80,7 +80,7 @@ class FawltyLearningTests(unittest.TestCase):
         )
         rejected = reject_material_change(proposal, approval_ref="operator:decision-002")
         self.assertEqual(rejected.approval_status, ApprovalStatus.REJECTED)
-        self.assertFalse(rejected.can_apply)
+        self.assertFalse(rejected.approval_gate_allows_application)
 
     def test_non_material_local_change_does_not_require_approval(self):
         record = learning_record(
@@ -96,7 +96,22 @@ class FawltyLearningTests(unittest.TestCase):
             material=False,
         )
         self.assertEqual(proposal.approval_status, ApprovalStatus.NOT_REQUIRED)
-        self.assertTrue(proposal.can_apply)
+        self.assertTrue(proposal.approval_gate_allows_application)
+
+    def test_cross_component_change_must_be_material(self):
+        record = learning_record(
+            source_component="FAWLTY",
+            process="calibration review",
+            evidence_refs=("evidence:run-005",),
+            lesson="Another component may need adjustment",
+        )
+        with self.assertRaises(ValueError):
+            propose_change(
+                record,
+                target_component="BRIAN",
+                proposed_change="Change another component without approval",
+                material=False,
+            )
 
 
 if __name__ == "__main__":

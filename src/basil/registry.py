@@ -39,11 +39,32 @@ def _registry_path() -> Path:
     return Path(str(files("basil.data").joinpath("capabilities.json")))
 
 
-def load_capabilities() -> list[Capability]:
+def _load_registry_document() -> dict:
     raw = json.loads(_registry_path().read_text(encoding="utf-8"))
+    if not isinstance(raw.get("schema_version"), int):
+        raise ValueError("registry schema_version must be an integer")
+    if not isinstance(raw.get("capabilities"), list):
+        raise ValueError("registry capabilities must be a list")
+    return raw
+
+
+def registry_schema_version() -> int:
+    return int(_load_registry_document()["schema_version"])
+
+
+def load_capabilities() -> list[Capability]:
+    raw = _load_registry_document()
     items = [Capability(**item) for item in raw["capabilities"]]
     validate_capabilities(items)
     return items
+
+
+def get_capability(capability_id: str) -> Capability:
+    target = capability_id.strip().casefold()
+    for item in load_capabilities():
+        if item.id.casefold() == target:
+            return item
+    raise KeyError(capability_id)
 
 
 def validate_capabilities(items: Iterable[Capability]) -> None:

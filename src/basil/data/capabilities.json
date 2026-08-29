@@ -136,10 +136,10 @@
       "name": "Visual Execution Layer",
       "owner": "BASIL",
       "kind": "interface/capability",
-      "maturity": "designed",
+      "maturity": "built",
       "path": "docs/visual/VISUAL_EXECUTION.md",
-      "note": "Strategic Pressure Map, AXIS4+1 and Gravity Channel design; implementation maturity must be verified separately.",
-      "repo_status": "migrating"
+      "note": "Canonical capability definition reconciled against the current 27 August decision plus 19 August Milestone 1 and Phase 1 engineering evidence. A working web prototype was previously deployed and evaluated, but Phase 1 was incomplete, the historical frontend source has not been recovered and current deployment is not revalidated. See docs/visual/WEB_PROTOTYPE_PHASE1_EVIDENCE.md.",
+      "repo_status": "canonical"
     },
     {
       "id": "client.android-v0.1",

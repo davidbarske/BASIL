@@ -105,11 +105,11 @@
       "id": "fawlty.learning",
       "name": "Cross-system learning and calibration",
       "owner": "FAWLTY",
-      "kind": "system responsibility",
-      "maturity": "architectural",
-      "path": "docs/architecture/CURRENT_ARCHITECTURE.md",
-      "note": "Local learning rolls upward; material push-back requires approval.",
-      "repo_status": "migrating"
+      "kind": "system capability/core primitive",
+      "maturity": "tested",
+      "path": "src/basil/fawlty.py",
+      "note": "Tested core learning record and change-proposal gate. Learning preserves evidence references and optional expected-vs-actual calibration; non-material changes are local-only; cross-component/material changes remain blocked until explicit approval is recorded. Archive archaeology and broader learning automation remain separate work.",
+      "repo_status": "canonical"
     },
     {
       "id": "grail.strategic-arcs",

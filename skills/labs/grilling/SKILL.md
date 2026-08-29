@@ -1,11 +1,11 @@
 ---
 name: grilling
 description: >-
-  Relentlessly clarify and stress-test a plan, decision, design or idea by mapping dependent decisions and asking only the current decision frontier. Use when the user says "grill me", "GrillMe", "grill this", "stress-test this", asks for rigorous interrogation before execution or when premature execution would be expensive.
+  Relentlessly clarify and stress-test a plan, decision, design or idea by mapping dependent decisions and asking only the current decision frontier. Use when the user says "grill me", "GrillMe", "grill this", "stress-test this", asks for rigorous interrogation before execution, or when a material plan carries unresolved assumptions or dependencies that should be surfaced before committing.
 license: MIT
 metadata:
-  basil-status: "candidate"
-  basil-owner: "LABS"
+  basil-status: "adopted"
+  basil-owner: "BASIL"
   upstream: "https://github.com/mattpocock/skills"
   lineage: "Adapted from Matt Pocock's grilling skill"
 ---
@@ -14,11 +14,17 @@ metadata:
 
 Use a dependency-aware interview to remove silent assumptions before action. Build a **decision tree**, not a questionnaire dump.
 
+## BASIL adoption status
+
+**ADOPTED / TESTED — 29 August 2026.** David explicitly adopted GrillMe after positive live use. It should be available as a normal BASIL working method rather than treated as a lab curiosity.
+
+Use it proactively, but selectively, when a material plan, decision, design or commitment contains hidden assumptions, unresolved choices, dependency ambiguity or a meaningful risk of premature execution. Do not turn routine, settled or low-stakes work into an interrogation ritual.
+
 ## Activation
 
 Activate immediately when the user explicitly says **GrillMe**, **grill me**, **grill this** or asks to be rigorously interrogated or stress-tested about a plan, decision, design or idea.
 
-It may also be used when the user asks for exhaustive clarification before execution and the cost of acting on hidden assumptions is material.
+It may also be used proactively when the cost of acting on hidden assumptions is material and clarification would materially improve the decision or execution path.
 
 ## Workflow
 

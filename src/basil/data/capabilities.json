@@ -142,6 +142,16 @@
       "repo_status": "migrating"
     },
     {
+      "id": "client.android-v0.1",
+      "name": "BASIL Android v0.1 task client",
+      "owner": "BASIL",
+      "kind": "client/application",
+      "maturity": "built",
+      "path": "clients/android/v0.1/README.md",
+      "note": "Recovered public-safe Kotlin/Compose v0.1 source from unpacked/deduplicated BASIL-UPDATE Drive material. Repository source recovery is complete, but binary build, APK install and device/emulator smoke testing remain unverified. Android is a BASIL task interaction client, not a separate system.",
+      "repo_status": "canonical"
+    },
+    {
       "id": "core.evidence-before-claims",
       "name": "Evidence Before Claims",
       "owner": "BASIL",

@@ -95,11 +95,11 @@
       "id": "sybil.commitments",
       "name": "Commitment, task and sequencing control",
       "owner": "SYBIL",
-      "kind": "system responsibility",
-      "maturity": "architectural",
-      "path": "docs/architecture/CURRENT_ARCHITECTURE.md",
-      "note": "Ownership established by 27 Aug reconciliation. Mature runtime remains to be built.",
-      "repo_status": "migrating"
+      "kind": "system capability/core primitive",
+      "maturity": "tested",
+      "path": "src/basil/sybil.py",
+      "note": "Tested core task-state model implements separate Importance/Urgency, explicit task states, optional owner/deadline/dependencies/source lineage and evidence-gated DONE. Full SYBIL orchestration/anomaly monitoring remains to be built.",
+      "repo_status": "canonical"
     },
     {
       "id": "fawlty.learning",

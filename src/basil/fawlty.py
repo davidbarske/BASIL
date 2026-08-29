@@ -1,3 +1,11 @@
+"""FAWLTY learning/calibration core.
+
+The tested primitive here is separate from the Drive-based working archive-learning
+pilot. Public-safe pilot provenance and its discovery-before-learning boundary are
+recorded in ``docs/learning/FAWLTY_ARCHAEOLOGY_PILOT_PROVENANCE.md``. Historical
+archaeology findings are evidence, not current BASIL authority.
+"""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, replace

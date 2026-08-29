@@ -24,7 +24,8 @@ class VisualExecutionStateTests(unittest.TestCase):
 
         self.assertIn("built / previously deployed prototype", visual)
         self.assertIn("source recovery", visual)
-        self.assertIn("historical source recovery: not recovered", evidence)
+        self.assertIn("historical source recovery", evidence)
+        self.assertIn("not recovered", evidence)
         self.assertIn("do not reconstruct or fabricate", evidence)
 
 

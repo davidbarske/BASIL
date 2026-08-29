@@ -4,9 +4,11 @@
 
 BASIL is a strategic operating environment for turning messy real-world information into preserved evidence, intelligence, decisions, commitments, execution and learning.
 
+**Milestone 1 — Canonical Baseline v0.2.0 was achieved on 29 August 2026.** See `docs/status/MILESTONE_1_CANONICAL_BASELINE_2026-08-29.md`.
+
 **GitHub `main` is the canonical source for BASIL architecture, capability, build and implementation state.** Google Drive remains the durable evidence/records repository for private, historical, heavyweight and source-evidence material that does not belong in this public repository.
 
-Current cutover state: see `docs/status/LINE_IN_THE_SAND_2026-08-29.md` and `docs/repository/MIGRATION_COMPLETENESS_2026-08-29.md`.
+Current baseline evidence: `docs/status/LINE_IN_THE_SAND_2026-08-29.md` and `docs/repository/MIGRATION_COMPLETENESS_2026-08-29.md`.
 
 ## Current architecture
 
@@ -42,7 +44,7 @@ python -m basil doctor
 
 The single machine-readable capability registry is `src/basil/data/capabilities.json`. Repository state and capability maturity are separate: a capability may be repository-canonical while remaining architectural, documented, built or candidate rather than tested/deployed.
 
-## What is materially migrated
+## What is materially canonical at Milestone 1
 
 The current repository includes:
 
@@ -86,6 +88,8 @@ Run tests with:
 python -m unittest discover -s tests -v
 ```
 
-## Cutover marker
+## Milestone marker
 
-The substantive migration is complete subject to the final cutover verification recorded in `docs/repository/MIGRATION_COMPLETENESS_2026-08-29.md`. The intended Git tag is `v0.2-canonical-baseline`; tag creation is a small technical/manual follow-up because the currently available GitHub connector does not expose tag creation.
+Milestone 1 closes the original repository migration programme and establishes the `0.2.0` canonical baseline. Further work is BASIL development, validation, deployment or capability maturation rather than migration debt unless genuinely newer authoritative historical implementation evidence is recovered.
+
+The preferred immutable Git tag remains `v0.2-canonical-baseline`. The connected GitHub tooling cannot currently create tag refs and no available plugin adds that mutation, so the exact verified milestone commit is the authoritative boundary until the tag is created manually or the tool surface changes.

@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, replace
 from enum import Enum
 
-from basil.priority import PriorityResult, classify_priority
+from basil.priority import PriorityResult, classify_priority, importance_band, urgency_band
 
 
 class TaskState(str, Enum):
@@ -15,15 +15,21 @@ class TaskState(str, Enum):
     DONE = "DONE"
 
 
+def nonblank(value: object, label: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{label} must be nonblank text")
+    return value
+
+
+def references(value: object, label: str) -> tuple[str, ...]:
+    if not isinstance(value, (tuple, list)):
+        raise ValueError(f"{label} must be a list/tuple of references")
+    return tuple(nonblank(item, label) for item in value)
+
+
 @dataclass(frozen=True)
 class TaskRecord:
-    """Minimal canonical SYBIL task/commitment state.
-
-    The model deliberately does not infer importance, urgency, owner, deadline,
-    dependencies or completion. Those fields remain absent until supported by
-    evidence or an explicit decision.
-    """
-
+    """Canonical commitment state, without inferred facts or a rigid transition graph."""
     task_id: str
     title: str
     state: TaskState
@@ -36,18 +42,23 @@ class TaskRecord:
     completion_evidence: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
-        if not self.task_id.strip():
-            raise ValueError("task_id must not be empty")
-        if not self.title.strip():
-            raise ValueError("title must not be empty")
-        if (self.importance is None) != (self.urgency is None):
-            raise ValueError("importance and urgency must either both be set or both be absent")
-        if self.importance is not None and self.urgency is not None:
-            classify_priority(self.importance, self.urgency)
-        if self.state is TaskState.DONE and not self.completion_evidence:
-            raise ValueError("DONE requires completion evidence")
+        nonblank(self.task_id, "task_id")
+        nonblank(self.title, "title")
+        if not isinstance(self.state, TaskState):
+            raise ValueError("state must be a valid TaskState")
+        if self.importance is not None:
+            importance_band(self.importance)
+        if self.urgency is not None:
+            urgency_band(self.urgency)
+        for label in ("owner", "deadline"):
+            if getattr(self, label) is not None:
+                nonblank(getattr(self, label), label)
+        for label in ("dependency_ids", "source_refs", "completion_evidence"):
+            object.__setattr__(self, label, references(getattr(self, label), label))
         if self.task_id in self.dependency_ids:
             raise ValueError("a task cannot depend on itself")
+        if self.state is TaskState.DONE and not self.completion_evidence:
+            raise ValueError("DONE requires explicit nonblank completion evidence")
 
     @property
     def priority(self) -> PriorityResult | None:
@@ -55,21 +66,11 @@ class TaskRecord:
             return None
         return classify_priority(self.importance, self.urgency)
 
-    def transition(
-        self,
-        new_state: TaskState,
-        *,
-        completion_evidence: tuple[str, ...] = (),
-    ) -> "TaskRecord":
-        """Return a new state record without inventing additional task facts.
-
-        BASIL has not yet reconciled a stricter universal transition graph, so
-        non-DONE state changes are intentionally permissive. Completion is the
-        hard evidence gate: DONE cannot be reached without explicit evidence.
-        """
-        if new_state is TaskState.DONE:
-            evidence = tuple(x for x in completion_evidence if x.strip())
-            if not evidence:
-                raise ValueError("DONE requires completion evidence")
-            return replace(self, state=new_state, completion_evidence=evidence)
-        return replace(self, state=new_state, completion_evidence=())
+    def transition(self, new_state: TaskState, *,
+                   completion_evidence: tuple[str, ...] = ()) -> "TaskRecord":
+        """Permissive non-DONE changes; the completion gate also applies to construction."""
+        if not isinstance(new_state, TaskState):
+            raise ValueError("new_state must be a valid TaskState")
+        evidence = references(completion_evidence, "completion_evidence")
+        return replace(self, state=new_state,
+                       completion_evidence=evidence if new_state is TaskState.DONE else ())

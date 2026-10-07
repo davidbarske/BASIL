@@ -68,4 +68,10 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.json:json:20240303")
+}
+
+tasks.withType<Test>().configureEach {
+    systemProperty("sybil.fixture.dir", File(rootDir, "../../../../fixtures/sybil").canonicalPath)
+    systemProperty("sybil.proof.dir", layout.buildDirectory.dir("sybil-proof").get().asFile.absolutePath)
 }

@@ -72,6 +72,11 @@ dependencies {
 }
 
 tasks.withType<Test>().configureEach {
+    inputs.dir(File(rootDir, "../../../../fixtures/sybil")).withPropertyName("sybilFixtures")
+    val proofDirectory = layout.buildDirectory.dir("sybil-proof").get().asFile
+    inputs.file(File(proofDirectory, "python-origin.json")).optional().withPropertyName("pythonCanonicalInput")
+    outputs.files(listOf("canonical-v1.json", "android-origin.json", "android-v01-expected.json")
+        .map { File(proofDirectory, it) }).withPropertyName("sybilExchangeProofs")
     systemProperty("sybil.fixture.dir", File(rootDir, "../../../../fixtures/sybil").canonicalPath)
     systemProperty("sybil.proof.dir", layout.buildDirectory.dir("sybil-proof").get().asFile.absolutePath)
 }

@@ -22,14 +22,13 @@ class SybilTaskStateTests(unittest.TestCase):
         self.assertEqual(task.urgency, 7)
         self.assertEqual(task.priority.matrix_priority, 2)
 
-    def test_partial_priority_is_rejected(self):
-        with self.assertRaises(ValueError):
-            TaskRecord(
-                task_id="T3",
-                title="Incomplete classification",
-                state=TaskState.ACTIVE,
-                importance=9,
-            )
+    def test_partial_priority_stays_partially_known(self):
+        # Current SYBIL authority keeps dimensions independent; classify only both known.
+        task = TaskRecord(task_id="T3", title="Incomplete classification",
+                          state=TaskState.ACTIVE, importance=9)
+        self.assertEqual(task.importance, 9)
+        self.assertIsNone(task.urgency)
+        self.assertIsNone(task.priority)
 
     def test_done_requires_completion_evidence(self):
         task = TaskRecord(task_id="T4", title="Do the thing", state=TaskState.ACTIVE)

@@ -89,7 +89,11 @@ class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
     }
 
     fun toggleDone(task: TaskRecord) {
-        save(task.withCompletion(task.completedAt == null))
+        if (task.state != za.co.davidbarske.basil.core.TaskState.DONE) {
+            uiState = uiState.copy(error = "Use Edit to supply completion evidence before marking DONE.")
+        } else {
+            save(task.withCompletion(false))
+        }
     }
 
     fun exportJson(): String = TaskJsonCodec.encode(uiState.tasks)
@@ -101,7 +105,7 @@ class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
                 val existing = repository.loadAll().associateBy { it.id }.toMutableMap()
                 imported.forEach { candidate ->
                     val current = existing[candidate.id]
-                    if (current == null || candidate.updatedAt >= current.updatedAt) {
+                    if (current == null || (candidate.updatedAt ?: Long.MIN_VALUE) >= (current.updatedAt ?: Long.MIN_VALUE)) {
                         existing[candidate.id] = candidate
                     }
                 }
@@ -130,7 +134,7 @@ class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
     }
 
     private fun sort(tasks: List<TaskRecord>): List<TaskRecord> = tasks.sortedWith(
-        compareBy<TaskRecord> { it.completedAt != null }
+        compareBy<TaskRecord> { it.state == za.co.davidbarske.basil.core.TaskState.DONE }
             .thenByDescending { it.updatedAt }
     )
 

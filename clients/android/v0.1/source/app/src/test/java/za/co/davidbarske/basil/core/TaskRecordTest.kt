@@ -26,13 +26,13 @@ class TaskRecordTest {
     @Test
     fun completionAndReopenAreExplicitStateChanges() {
         val task = TaskRecord.create(description = "Task", now = 100L)
-        val done = task.withCompletion(true, now = 200L)
+        val done = task.withCompletion(true, now = 200L, evidence = listOf("test:verified-output"))
         val reopened = done.withCompletion(false, now = 300L)
 
         assertEquals(TaskState.DONE, done.state)
         assertEquals(200L, done.completedAt)
         assertEquals(TaskState.ACTIVE, reopened.state)
         assertNull(reopened.completedAt)
-        assertTrue(reopened.updatedAt > done.updatedAt)
+        assertTrue(reopened.updatedAt!! > done.updatedAt!!)
     }
 }

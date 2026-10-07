@@ -291,7 +291,7 @@ private fun TaskCard(
                 horizontalArrangement = Arrangement.End
             ) {
                 TextButton(onClick = onToggleDone) {
-                    Text(if (task.completedAt == null) "Done" else "Reopen")
+                    Text(if (task.state != TaskState.DONE) "Done" else "Reopen")
                 }
                 TextButton(onClick = onEdit) { Text("Edit") }
                 TextButton(onClick = onDelete) { Text("Delete") }
@@ -312,6 +312,7 @@ private fun TaskEditorScreen(
     var nextAction by remember(initial?.id) { mutableStateOf(initial?.nextAction ?: "") }
     var deadline by remember(initial?.id) { mutableStateOf(initial?.deadline ?: "") }
     var notes by remember(initial?.id) { mutableStateOf(initial?.notes ?: "") }
+    var completionEvidence by remember(initial?.id) { mutableStateOf(initial?.completionEvidence?.joinToString("\n") ?: "") }
     var selectedState by remember(initial?.id) { mutableStateOf(initial?.state ?: TaskState.ACTIVE) }
     var stateMenuOpen by remember { mutableStateOf(false) }
     var validationError by remember { mutableStateOf<String?>(null) }
@@ -333,7 +334,8 @@ private fun TaskEditorScreen(
                             }
 
                             val now = System.currentTimeMillis()
-                            val task = if (initial == null) {
+                            val evidence = if (selectedState == TaskState.DONE) completionEvidence.lines() else emptyList()
+                            val task = try { if (initial == null) {
                                 TaskRecord.create(
                                     description = clean,
                                     state = selectedState,
@@ -341,7 +343,8 @@ private fun TaskEditorScreen(
                                     nextAction = nextAction,
                                     deadline = deadline,
                                     notes = notes,
-                                    now = now
+                                    now = now,
+                                    completionEvidence = evidence
                                 )
                             } else {
                                 initial.copy(
@@ -352,12 +355,17 @@ private fun TaskEditorScreen(
                                     deadline = deadline.trim().takeIf { it.isNotBlank() },
                                     notes = notes.trim(),
                                     updatedAt = now,
+                                    completionEvidence = evidence,
                                     completedAt = when {
                                         selectedState == TaskState.DONE && initial.completedAt == null -> now
                                         selectedState != TaskState.DONE -> null
                                         else -> initial.completedAt
                                     }
                                 )
+                            }
+                            } catch (error: IllegalArgumentException) {
+                                validationError = error.message
+                                return@TextButton
                             }
                             onSave(task)
                         }
@@ -419,6 +427,16 @@ private fun TaskEditorScreen(
                         }
                     }
                 }
+            }
+
+            item {
+                OutlinedTextField(
+                    value = completionEvidence,
+                    onValueChange = { completionEvidence = it; validationError = null },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text("Completion evidence (one reference per line)") },
+                    minLines = 2
+                )
             }
 
             item {

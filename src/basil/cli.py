@@ -7,6 +7,7 @@ from collections import Counter
 from . import __version__
 from .doctor import healthy, run_doctor
 from .priority import classify_priority
+from . import sybil_cli
 from .registry import filter_capabilities, get_capability, load_capabilities, registry_schema_version
 
 
@@ -39,6 +40,7 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("context", help="emit compact canonical BASIL orientation state")
     p.add_argument("--json", action="store_true", dest="as_json")
 
+    sybil_cli.add_parser(sub)
     sub.add_parser("doctor", help="verify repository structure and registered local artefacts")
     sub.add_parser("version", help="print BASIL core version")
     return parser
@@ -67,6 +69,9 @@ def _context_data() -> dict:
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+
+    if args.command == "sybil":
+        return sybil_cli.run(args)
 
     if args.command == "priority":
         result = classify_priority(args.importance, args.urgency)

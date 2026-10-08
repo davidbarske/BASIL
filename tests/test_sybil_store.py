@@ -258,7 +258,12 @@ class SybilStoreTests(unittest.TestCase):
                    {"source_refs": ("s", "")}, {"completion_evidence": "proof"},
                    {"completion_evidence": (None,)}, {"state": TaskState.DONE}, {"id": "new"}]
         for change in changes:
-            with self.subTest(change=change), self.assertRaises(ValueError):
+            # The established canonical score validator distinguishes type from range errors.
+            expected_error = TypeError if any(
+                name in change and type(change[name]) is not int
+                for name in ("importance", "urgency")
+            ) else ValueError
+            with self.subTest(change=change), self.assertRaises(expected_error):
                 self.store.update("T", **change)
         for args in ({"actor": " "}, {"source_refs": ("",)}, {"evidence_refs": "reference"}):
             with self.assertRaises(ValueError):

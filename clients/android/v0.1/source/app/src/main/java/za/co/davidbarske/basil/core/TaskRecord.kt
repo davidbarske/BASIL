@@ -42,6 +42,34 @@ class TaskRecord(
         }
     }
 
+
+    /** Equality includes every represented field, including client metadata.
+     * Canonical import comparison deliberately excludes that metadata.
+     */
+    private data class CanonicalValue(
+        val id: String, val description: String, val state: TaskState,
+        val importance: Int?, val urgency: Int?, val owner: String?, val deadline: String?,
+        val dependencyIds: List<String>, val sourceRefs: List<String>, val completionEvidence: List<String>
+    )
+    private data class ClientValue(
+        val project: String, val nextAction: String, val notes: String,
+        val createdAt: Long?, val updatedAt: Long?, val completedAt: Long?, val present: Boolean
+    )
+    val carriesClientMetadata: Boolean
+        get() = hasClientMetadata || listOf(project, nextAction, notes).any { it.isNotEmpty() } ||
+            listOf(createdAt, updatedAt, completedAt).any { it != null }
+
+    private fun canonicalValue() = CanonicalValue(id, description, state, importance, urgency,
+        owner, deadline, dependencyIds, sourceRefs, completionEvidence)
+    private fun clientValue() = ClientValue(project, nextAction, notes,
+        createdAt, updatedAt, completedAt, carriesClientMetadata)
+
+    fun sameCanonicalContent(other: TaskRecord): Boolean = canonicalValue() == other.canonicalValue()
+    override fun equals(other: Any?): Boolean =
+        other is TaskRecord && canonicalValue() == other.canonicalValue() && clientValue() == other.clientValue()
+    override fun hashCode(): Int = 31 * canonicalValue().hashCode() + clientValue().hashCode()
+    override fun toString(): String = "TaskRecord(canonical=${canonicalValue()}, client=${clientValue()})"
+
     fun copy(
         id: String = this.id, description: String = this.description, state: TaskState = this.state,
         project: String = this.project, nextAction: String = this.nextAction,

@@ -28,9 +28,7 @@ object TaskJsonCodec {
                 .put("dependency_ids", JSONArray(task.dependencyIds))
                 .put("source_refs", JSONArray(task.sourceRefs))
                 .put("completion_evidence", JSONArray(task.completionEvidence)))
-            if (task.hasClientMetadata ||
-                listOf(task.project, task.nextAction, task.notes).any { it.isNotEmpty() } ||
-                listOf(task.createdAt, task.updatedAt, task.completedAt).any { it != null }) {
+            if (task.carriesClientMetadata) {
                 metadata.put(task.id, JSONObject().put("project", task.project)
                     .put("nextAction", task.nextAction).put("notes", task.notes)
                     .putNullable("createdAt", task.createdAt).putNullable("updatedAt", task.updatedAt)
@@ -57,7 +55,8 @@ object TaskJsonCodec {
         val array = root.getJSONArray("tasks")
         if (legacy) {
             val incomplete = (0 until array.length()).map { array.getJSONObject(it) }.filter {
-                it.text("state") == "DONE" && (!it.has("completionEvidence") || it.strings("completionEvidence").isEmpty())
+                it.text("state") == "DONE" && (!it.has("completionEvidence") || it.isNull("completionEvidence") ||
+                    it.strings("completionEvidence").isEmpty() || it.strings("completionEvidence").any { ref -> ref.isBlank() })
             }.map { it.text("id") }
             if (incomplete.isNotEmpty()) throw LegacyReconciliationRequired(incomplete, text)
         }

@@ -1,0 +1,24 @@
+{
+  "format": "BASIL_SYBIL_TASKS",
+  "schema_version": 1,
+  "tasks": [
+    {
+      "task_id": "android-origin",
+      "title": "Android-origin café",
+      "state": "DONE",
+      "importance": null,
+      "urgency": 7,
+      "owner": null,
+      "deadline": null,
+      "dependency_ids": [
+        "active"
+      ],
+      "source_refs": [
+        "source:synthetic"
+      ],
+      "completion_evidence": [
+        "artifact:synthetic"
+      ]
+    }
+  ]
+}

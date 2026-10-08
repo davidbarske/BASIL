@@ -1,0 +1,96 @@
+{
+  "format": "BASIL_SYBIL_TASKS",
+  "schema_version": 1,
+  "tasks": [
+    {
+      "task_id": "active",
+      "title": "Unknown dimensions",
+      "state": "ACTIVE",
+      "importance": null,
+      "urgency": null,
+      "owner": null,
+      "deadline": null,
+      "dependency_ids": [],
+      "source_refs": [],
+      "completion_evidence": []
+    },
+    {
+      "task_id": "waiting",
+      "title": "Importance alone",
+      "state": "WAITING",
+      "importance": 9,
+      "urgency": null,
+      "owner": null,
+      "deadline": null,
+      "dependency_ids": [],
+      "source_refs": [],
+      "completion_evidence": []
+    },
+    {
+      "task_id": "monitor",
+      "title": "Urgency alone",
+      "state": "MONITOR",
+      "importance": null,
+      "urgency": 7,
+      "owner": null,
+      "deadline": null,
+      "dependency_ids": [],
+      "source_refs": [],
+      "completion_evidence": []
+    },
+    {
+      "task_id": "blocked",
+      "title": "Explicit references",
+      "state": "BLOCKED",
+      "importance": null,
+      "urgency": null,
+      "owner": null,
+      "deadline": null,
+      "dependency_ids": [
+        "active",
+        "external:synthetic"
+      ],
+      "source_refs": [
+        "meeting:synthetic-1",
+        "decision:synthetic-2"
+      ],
+      "completion_evidence": []
+    },
+    {
+      "task_id": "scheduled",
+      "title": "Known dimensions",
+      "state": "SCHEDULED",
+      "importance": 9,
+      "urgency": 7,
+      "owner": "Synthetic operator",
+      "deadline": "2026-10-09 14:00",
+      "dependency_ids": [],
+      "source_refs": [],
+      "completion_evidence": []
+    },
+    {
+      "task_id": "done",
+      "title": "Verified output",
+      "state": "DONE",
+      "importance": null,
+      "urgency": null,
+      "owner": null,
+      "deadline": null,
+      "dependency_ids": [],
+      "source_refs": [],
+      "completion_evidence": [
+        "artifact:synthetic-verified"
+      ]
+    }
+  ],
+  "android_v01": {
+    "active": {
+      "project": "Synthetic project",
+      "nextAction": "Read synthetic document",
+      "notes": "Preserve wording: café\nClient notes",
+      "createdAt": 1700000000000,
+      "updatedAt": 1700000001000,
+      "completedAt": null
+    }
+  }
+}

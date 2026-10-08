@@ -1,0 +1,19 @@
+{
+  "format": "BASIL_TASK_EXPORT",
+  "schemaVersion": 1,
+  "exportedAt": 1700000002000,
+  "tasks": [
+    {
+      "id": "legacy-task",
+      "description": "Legacy task",
+      "state": "ACTIVE",
+      "deadline": null,
+      "project": "Old project",
+      "nextAction": "Old next action",
+      "notes": "Old notes",
+      "createdAt": 1700000000000,
+      "updatedAt": 1700000001000,
+      "completedAt": null
+    }
+  ]
+}

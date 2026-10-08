@@ -53,6 +53,8 @@ fun BasilApp(viewModel: TaskViewModel) {
     var editorTask by remember { mutableStateOf<TaskRecord?>(null) }
     var editorOpen by remember { mutableStateOf(false) }
     var pendingDelete by remember { mutableStateOf<TaskRecord?>(null) }
+    var recoveryImport by remember { mutableStateOf(false) }
+    var pendingExportBytes by remember { mutableStateOf<ByteArray?>(null) }
 
     val exportLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.CreateDocument("application/json")
@@ -60,7 +62,7 @@ fun BasilApp(viewModel: TaskViewModel) {
         if (uri != null) {
             runCatching {
                 context.contentResolver.openOutputStream(uri)?.use { stream ->
-                    stream.write(viewModel.exportJson().toByteArray(Charsets.UTF_8))
+                    stream.write(pendingExportBytes ?: error("No export payload selected."))
                 } ?: error("Unable to open export destination.")
             }.onSuccess {
                 Toast.makeText(context, "BASIL export saved.", Toast.LENGTH_SHORT).show()
@@ -77,7 +79,9 @@ fun BasilApp(viewModel: TaskViewModel) {
             runCatching {
                 context.contentResolver.openInputStream(uri)?.bufferedReader(Charsets.UTF_8)?.use { it.readText() }
                     ?: error("Unable to open selected file.")
-            }.onSuccess(viewModel::importJson)
+            }.onSuccess { text ->
+                if (recoveryImport) viewModel.reconcileLocal(text) else viewModel.importJson(text)
+            }
                 .onFailure {
                     Toast.makeText(context, it.message ?: "Import failed.", Toast.LENGTH_LONG).show()
                 }
@@ -92,7 +96,7 @@ fun BasilApp(viewModel: TaskViewModel) {
         }
     }
 
-    if (editorOpen) {
+    if (editorOpen && state.sourceProblem == null) {
         TaskEditorScreen(
             initial = editorTask,
             onCancel = {
@@ -119,12 +123,13 @@ fun BasilApp(viewModel: TaskViewModel) {
     Scaffold(
         topBar = {
             BasilTopBar(
-                onImport = { importLauncher.launch(arrayOf("application/json", "text/plain")) },
-                onExport = { exportLauncher.launch("BASIL_tasks_v0.1.json") }
+                onImport = { recoveryImport = false; importLauncher.launch(arrayOf("application/json", "text/plain")) },
+                onExport = { pendingExportBytes = viewModel.exportBytes(); exportLauncher.launch("BASIL_tasks_v0.1.json") },
+                recovery = state.sourceProblem != null
             )
         },
         floatingActionButton = {
-            FloatingActionButton(
+            if (state.sourceProblem == null && !state.loading) FloatingActionButton(
                 onClick = {
                     editorTask = null
                     editorOpen = true
@@ -140,6 +145,24 @@ fun BasilApp(viewModel: TaskViewModel) {
                 .padding(padding)
                 .padding(horizontal = 16.dp)
         ) {
+            state.sourceProblem?.let { problem ->
+                Text(problem.message, color = MaterialTheme.colorScheme.error)
+                if (problem.legacyReconciliation) {
+                    TextButton(onClick = {
+                        recoveryImport = true
+                        importLauncher.launch(arrayOf("application/json", "text/plain"))
+                    }) { Text("Recover with reconciled file") }
+                }
+            }
+            state.importConflict?.let { conflict ->
+                Text("Import needs reconciliation: " + conflict.taskIds.joinToString() +
+                    ". Local tasks are unchanged.", color = MaterialTheme.colorScheme.error)
+                TextButton(onClick = {
+                    pendingExportBytes = viewModel.exportConflictingImportBytes()
+                    exportLauncher.launch("BASIL_conflicting_import.json")
+                }) { Text("Export conflicting import") }
+            }
+
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it },
@@ -168,7 +191,8 @@ fun BasilApp(viewModel: TaskViewModel) {
                                 editorOpen = true
                             },
                             onToggleDone = { viewModel.toggleDone(task) },
-                            onDelete = { pendingDelete = task }
+                            onDelete = { pendingDelete = task },
+                            editable = state.sourceProblem == null
                         )
                     }
                     item { Spacer(Modifier.height(88.dp)) }
@@ -182,7 +206,7 @@ fun BasilApp(viewModel: TaskViewModel) {
             onDismissRequest = { pendingDelete = null },
             title = { Text("Delete task?") },
             text = {
-                Text("This permanently removes the task from BASIL v0.1. Export first if you need an external backup.")
+                Text("This removes the task from this device only. It does not authorize deletion of canonical SYBIL state or history. Export first if you need a local backup.")
             },
             confirmButton = {
                 Button(onClick = {
@@ -199,7 +223,7 @@ fun BasilApp(viewModel: TaskViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun BasilTopBar(onImport: () -> Unit, onExport: () -> Unit) {
+private fun BasilTopBar(onImport: () -> Unit, onExport: () -> Unit, recovery: Boolean) {
     TopAppBar(
         title = {
             Column {
@@ -208,8 +232,8 @@ private fun BasilTopBar(onImport: () -> Unit, onExport: () -> Unit) {
             }
         },
         actions = {
-            TextButton(onClick = onImport) { Text("Import") }
-            TextButton(onClick = onExport) { Text("Export") }
+            TextButton(onClick = onImport, enabled = !recovery) { Text("Import") }
+            TextButton(onClick = onExport) { Text(if (recovery) "Export original" else "Export") }
         }
     )
 }
@@ -238,9 +262,10 @@ private fun TaskCard(
     task: TaskRecord,
     onEdit: () -> Unit,
     onToggleDone: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    editable: Boolean
 ) {
-    Card(onClick = onEdit) {
+    Card(onClick = onEdit, enabled = editable) {
         Column(Modifier.padding(16.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -290,11 +315,11 @@ private fun TaskCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
             ) {
-                TextButton(onClick = onToggleDone) {
-                    Text(if (task.completedAt == null) "Done" else "Reopen")
+                TextButton(onClick = onToggleDone, enabled = editable) {
+                    Text(if (task.state != TaskState.DONE) "Done" else "Reopen")
                 }
-                TextButton(onClick = onEdit) { Text("Edit") }
-                TextButton(onClick = onDelete) { Text("Delete") }
+                TextButton(onClick = onEdit, enabled = editable) { Text("Edit") }
+                TextButton(onClick = onDelete, enabled = editable) { Text("Delete") }
             }
         }
     }
@@ -312,6 +337,7 @@ private fun TaskEditorScreen(
     var nextAction by remember(initial?.id) { mutableStateOf(initial?.nextAction ?: "") }
     var deadline by remember(initial?.id) { mutableStateOf(initial?.deadline ?: "") }
     var notes by remember(initial?.id) { mutableStateOf(initial?.notes ?: "") }
+    var completionEvidence by remember(initial?.id) { mutableStateOf(initial?.completionEvidence?.joinToString("\n") ?: "") }
     var selectedState by remember(initial?.id) { mutableStateOf(initial?.state ?: TaskState.ACTIVE) }
     var stateMenuOpen by remember { mutableStateOf(false) }
     var validationError by remember { mutableStateOf<String?>(null) }
@@ -333,7 +359,8 @@ private fun TaskEditorScreen(
                             }
 
                             val now = System.currentTimeMillis()
-                            val task = if (initial == null) {
+                            val evidence = if (selectedState == TaskState.DONE) completionEvidence.lines() else emptyList()
+                            val task = try { if (initial == null) {
                                 TaskRecord.create(
                                     description = clean,
                                     state = selectedState,
@@ -341,7 +368,8 @@ private fun TaskEditorScreen(
                                     nextAction = nextAction,
                                     deadline = deadline,
                                     notes = notes,
-                                    now = now
+                                    now = now,
+                                    completionEvidence = evidence
                                 )
                             } else {
                                 initial.copy(
@@ -352,12 +380,17 @@ private fun TaskEditorScreen(
                                     deadline = deadline.trim().takeIf { it.isNotBlank() },
                                     notes = notes.trim(),
                                     updatedAt = now,
+                                    completionEvidence = evidence,
                                     completedAt = when {
                                         selectedState == TaskState.DONE && initial.completedAt == null -> now
                                         selectedState != TaskState.DONE -> null
                                         else -> initial.completedAt
                                     }
                                 )
+                            }
+                            } catch (error: IllegalArgumentException) {
+                                validationError = error.message
+                                return@TextButton
                             }
                             onSave(task)
                         }
@@ -419,6 +452,16 @@ private fun TaskEditorScreen(
                         }
                     }
                 }
+            }
+
+            item {
+                OutlinedTextField(
+                    value = completionEvidence,
+                    onValueChange = { completionEvidence = it; validationError = null },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text("Completion evidence (one reference per line)") },
+                    minLines = 2
+                )
             }
 
             item {

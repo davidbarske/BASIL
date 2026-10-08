@@ -2,6 +2,7 @@ name: BASIL verification
 
 on:
   push:
+    branches: [main]
   pull_request:
 
 jobs:
@@ -12,6 +13,8 @@ jobs:
         python-version: ["3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}

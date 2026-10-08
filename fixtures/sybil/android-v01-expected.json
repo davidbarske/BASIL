@@ -1,0 +1,28 @@
+{
+  "format": "BASIL_SYBIL_TASKS",
+  "schema_version": 1,
+  "tasks": [
+    {
+      "task_id": "legacy-task",
+      "title": "Legacy task",
+      "state": "ACTIVE",
+      "importance": null,
+      "urgency": null,
+      "owner": null,
+      "deadline": null,
+      "dependency_ids": [],
+      "source_refs": [],
+      "completion_evidence": []
+    }
+  ],
+  "android_v01": {
+    "legacy-task": {
+      "project": "Old project",
+      "nextAction": "Old next action",
+      "notes": "Old notes",
+      "createdAt": 1700000000000,
+      "updatedAt": 1700000001000,
+      "completedAt": null
+    }
+  }
+}

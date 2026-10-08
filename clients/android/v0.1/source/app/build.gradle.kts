@@ -68,4 +68,16 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.json:json:20240303")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+}
+
+tasks.withType<Test>().configureEach {
+    inputs.dir(File(rootDir, "../../../../fixtures/sybil")).withPropertyName("sybilFixtures")
+    val proofDirectory = layout.buildDirectory.dir("sybil-proof").get().asFile
+    inputs.file(File(proofDirectory, "python-origin.json")).optional().withPropertyName("pythonCanonicalInput")
+    outputs.files(listOf("canonical-v1.json", "android-origin.json", "android-v01-expected.json")
+        .map { File(proofDirectory, it) }).withPropertyName("sybilExchangeProofs")
+    systemProperty("sybil.fixture.dir", File(rootDir, "../../../../fixtures/sybil").canonicalPath)
+    systemProperty("sybil.proof.dir", layout.buildDirectory.dir("sybil-proof").get().asFile.absolutePath)
 }

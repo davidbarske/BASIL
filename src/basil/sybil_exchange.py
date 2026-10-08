@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from collections.abc import Mapping
+from types import MappingProxyType
 import json
 
 from .sybil import TaskRecord, TaskState
@@ -66,7 +68,7 @@ def parse_json(text: str):
 
 
 def validate_client(metadata: object):
-    if not isinstance(metadata, dict) or set(metadata) != CLIENT_FIELDS:
+    if not isinstance(metadata, Mapping) or set(metadata) != CLIENT_FIELDS:
         raise ValueError("Android sidecar must contain exactly the six v0.1 client fields")
     for name in ("project", "nextAction", "notes"):
         if not isinstance(metadata[name], str):
@@ -80,7 +82,7 @@ def validate_client(metadata: object):
 @dataclass(frozen=True)
 class TaskExchange:
     tasks: tuple[TaskRecord, ...]
-    android_v01: dict[str, dict] = field(default_factory=dict)
+    android_v01: Mapping[str, Mapping[str, str | int | None]] = field(default_factory=dict)
 
     def __post_init__(self):
         object.__setattr__(self, "tasks", tuple(self.tasks))
@@ -89,10 +91,13 @@ class TaskExchange:
         ids = {task.task_id for task in self.tasks}
         if len(ids) != len(self.tasks):
             raise ValueError("duplicate task IDs")
-        if not isinstance(self.android_v01, dict) or set(self.android_v01) - ids:
+        if not isinstance(self.android_v01, Mapping) or set(self.android_v01) - ids:
             raise ValueError("sidecar must refer only to included tasks")
-        for metadata in self.android_v01.values():
+        copied = {}
+        for task_id, metadata in self.android_v01.items():
             validate_client(metadata)
+            copied[task_id] = MappingProxyType(dict(metadata))
+        object.__setattr__(self, "android_v01", MappingProxyType(copied))
 
 
 def dumps(exchange: TaskExchange) -> str:
@@ -100,7 +105,7 @@ def dumps(exchange: TaskExchange) -> str:
     data = {"format": FORMAT, "schema_version": SCHEMA_VERSION,
             "tasks": [task_to_dict(task) for task in exchange.tasks]}
     if exchange.android_v01:
-        data["android_v01"] = exchange.android_v01
+        data["android_v01"] = {task_id: dict(metadata) for task_id, metadata in exchange.android_v01.items()}
     return json.dumps(data, indent=2, ensure_ascii=False, allow_nan=False)
 
 

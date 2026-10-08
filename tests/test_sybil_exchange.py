@@ -139,3 +139,26 @@ class SybilExchangeTests(unittest.TestCase):
     def test_android_origin_fixture_decodes_and_roundtrips(self):
         original = json.loads((FIXTURES / "android-origin.json").read_text())
         self.assertEqual(original, json.loads(dumps(loads(json.dumps(original)))))
+
+    def test_sidecar_defensively_copies_both_mapping_levels(self):
+        original = json.loads((FIXTURES / "canonical-v1.json").read_text())
+        tasks = loads(json.dumps(original)).tasks
+        metadata = original["android_v01"]
+        exchange = TaskExchange(tasks, metadata)
+        before = dumps(exchange)
+        metadata["active"]["notes"] = "Changed outside the exchange"
+        metadata["active"]["createdAt"] = False
+        metadata.clear()
+        self.assertEqual(dumps(exchange), before)
+
+    def test_sidecar_and_nested_values_are_read_only(self):
+        exchange = loads((FIXTURES / "canonical-v1.json").read_text())
+        before = dumps(exchange)
+        with self.assertRaises(TypeError):
+            exchange.android_v01["active"] = {}
+        with self.assertRaises(TypeError):
+            exchange.android_v01["active"]["notes"] = "Changed"
+        with self.assertRaises(TypeError):
+            del exchange.android_v01["active"]["createdAt"]
+        self.assertEqual(dumps(exchange), before)
+        self.assertEqual(loads(before), exchange)

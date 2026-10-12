@@ -9,7 +9,8 @@ import os
 import sqlite3
 
 from .sybil import TaskRecord, TaskState, nonblank, references
-from .sybil_exchange import TASK_FIELDS, parse_json, task_from_dict, task_to_dict
+from .sybil_exchange import (TASK_FIELDS, TaskExchange, dumps, loads, parse_json,
+                             task_from_dict, task_to_dict)
 
 SCHEMA_VERSION = 1
 REFERENCE_FIELDS = ("dependency_ids", "source_refs", "completion_evidence")
@@ -59,6 +60,31 @@ class UnsupportedSchemaError(SybilStoreError):
 
 class CorruptStoreError(SybilStoreError):
     pass
+
+
+class ExchangeReconciliationRequired(SybilStoreError):
+    """No import has committed; both versions and original input remain available."""
+    def __init__(self, conflicts, original_payload):
+        self.conflicts = tuple(conflicts)
+        self.task_ids = tuple(local.task_id for local, incoming in self.conflicts)
+        self.original_payload = original_payload
+        super().__init__("SYBIL same-ID canonical conflict; no tasks imported: " +
+                         ", ".join(self.task_ids))
+
+
+class UnpersistedClientMetadataError(SybilStoreError):
+    """Refuse loss of Android-only fields unsupported by SQLite storage."""
+    def __init__(self, task_ids, original_payload):
+        self.task_ids = tuple(task_ids)
+        self.original_payload = original_payload
+        super().__init__("Android client metadata cannot be stored in this SYBIL register; "
+                         "import refused without dropping it: " + ", ".join(self.task_ids))
+
+
+@dataclass(frozen=True)
+class ImportResult:
+    created_ids: tuple[str, ...]
+    unchanged_ids: tuple[str, ...]
 
 
 class DuplicateTaskError(SybilStoreError):
@@ -356,6 +382,47 @@ class SybilStore:
         except (ValueError, TypeError, KeyError, AttributeError) as error:
             raise CorruptStoreError(f"Invalid persisted SYBIL history for {task_id}: {error}") from error
         return tuple(entries)
+
+    def export_exchange(self) -> str:
+        """Snapshot canonical tasks in exchange v1; never invent an Android sidecar."""
+        with self._transaction():
+            ids = [row[0] for row in self._connection.execute(
+                "SELECT task_id FROM tasks ORDER BY task_id")]
+            tasks = []
+            for task_id in ids:
+                task = self._get(task_id)
+                self._history(task_id, task)
+                tasks.append(task)
+        return dumps(TaskExchange(tuple(tasks)))
+
+    def import_exchange(self, original_payload: str, *,
+                        context: MutationContext | None = None) -> ImportResult:
+        """Validate first, then commit only NEW IDs atomically; conflicts refuse all."""
+        exchange = loads(original_payload)
+        if exchange.android_v01:
+            raise UnpersistedClientMetadataError(
+                tuple(exchange.android_v01), original_payload)
+        context = _context(context)
+        with self._transaction(write=True):
+            incoming = exchange.tasks
+            local = {}
+            for task in incoming:
+                row = self._connection.execute(
+                    "SELECT 1 FROM tasks WHERE task_id=?", (task.task_id,)).fetchone()
+                if row:
+                    current = self._get(task.task_id)
+                    self._history(task.task_id, current)
+                    local[task.task_id] = current
+            conflicts = tuple((local[task.task_id], task) for task in incoming
+                              if task.task_id in local and local[task.task_id] != task)
+            if conflicts:
+                raise ExchangeReconciliationRequired(conflicts, original_payload)
+            new = tuple(task for task in incoming if task.task_id not in local)
+            unchanged = tuple(task.task_id for task in incoming if task.task_id in local)
+            for task in new:
+                self._write_task(task, create=True)
+                self._append_history("CREATE", None, task, context)
+        return ImportResult(tuple(task.task_id for task in new), unchanged)
 
     def history(self, task_id: str) -> tuple[HistoryEntry, ...]:
         nonblank(task_id, "task_id")

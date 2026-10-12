@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from pathlib import Path
 import sys
 
 from .sybil import TaskRecord, TaskState
@@ -51,11 +52,13 @@ def add_parser(subparsers):
     parser = subparsers.add_parser("sybil", help="inspect durable canonical SYBIL state (explicit local DB)")
     parser.add_argument("--db", required=True, help="explicit SQLite path; no global default")
     operations = parser.add_subparsers(dest="sybil_operation", required=True)
-    for operation in ("initialise", "create", "list", "show", "update", "transition", "complete", "history"):
+    for operation in ("initialise", "create", "list", "show", "update", "transition", "complete", "history", "export", "import"):
         child = operations.add_parser(operation)
         child.add_argument("--json", action="store_true", dest="as_json")
-        if operation not in {"initialise", "list"}:
+        if operation not in {"initialise", "list", "export", "import"}:
             child.add_argument("task_id")
+        if operation == "import":
+            child.add_argument("--input", required=True, help="explicit UTF-8 JSON file; source is never modified")
         if operation in {"create", "update"}:
             _facts(child, update=operation == "update")
         if operation in {"create", "transition"}:
@@ -64,7 +67,7 @@ def add_parser(subparsers):
         if operation in {"transition", "complete"}:
             child.add_argument("--evidence", action="append", required=operation == "complete",
                                default=None, help="explicit completion evidence reference; repeat for ordering")
-        if operation in {"create", "update", "transition", "complete"}:
+        if operation in {"create", "update", "transition", "complete", "import"}:
             child.add_argument("--actor", help="only an actually known actor/process identifier")
             child.add_argument("--change-source", action="append")
             child.add_argument("--change-evidence", action="append")
@@ -99,6 +102,14 @@ def run(args) -> int:
                     dependency_ids=tuple(args.dependency_ids or ()), source_refs=tuple(args.source_refs or ()),
                     completion_evidence=tuple(args.completion_evidence or ()))
                 data = task_to_dict(store.create(task, context=context))
+            elif operation == "export":
+                data = store.export_exchange()
+            elif operation == "import":
+                # bytes.decode preserves original CRLF and Unicode; failures never alter source.
+                original = Path(args.input).read_bytes().decode("utf-8")
+                result = store.import_exchange(original, context=context)
+                data = {"created_ids": list(result.created_ids),
+                        "unchanged_ids": list(result.unchanged_ids)}
             elif operation == "list":
                 data = [task_to_dict(task) for task in store.list()]
             elif operation == "show":
@@ -115,7 +126,9 @@ def run(args) -> int:
                 data = task_to_dict(store.complete(args.task_id, tuple(args.evidence or ()), context=context))
             else:
                 data = [history_to_dict(entry) for entry in store.history(args.task_id)]
-        if args.as_json:
+        if operation == "export":
+            print(data)
+        elif args.as_json:
             print(json.dumps(data, indent=2, ensure_ascii=False, allow_nan=False))
         elif isinstance(data, list):
             for item in data:
@@ -126,6 +139,8 @@ def run(args) -> int:
                     print(f"{item['task_id']} {item['state']} {item['title']}")
         elif "task_id" in data:
             print(f"{data['task_id']} {data['state']} {data['title']}")
+        elif operation == "import":
+            print(f"Imported {len(data['created_ids'])} new; {len(data['unchanged_ids'])} unchanged")
         else:
             print(f"SYBIL schema {SCHEMA_VERSION}: {args.db}")
         return 0

@@ -98,7 +98,7 @@
       "kind": "system capability/core primitive",
       "maturity": "tested",
       "path": "src/basil/sybil.py",
-      "note": "Tested core task-state model implements separate Importance/Urgency, explicit task states, optional owner/deadline/dependencies/source lineage and evidence-gated DONE. Full SYBIL orchestration/anomaly monitoring remains to be built.",
+      "note": "Canonical ten-field task/exchange model plus explicit-path SQLite commitment register with transactional append-preserving history. Automated verification covers on-disk/process restart, evidence-backed DONE, corruption and rollback. Full SYBIL orchestration, scheduling, dependency resolution and anomaly monitoring remain outside this bounded implementation; no deployment is claimed.",
       "repo_status": "canonical"
     },
     {
